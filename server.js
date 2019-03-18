@@ -23,3 +23,6 @@ console.log( 'Connection to database successful!' );
 });
 console.log( 'Example app listening on port 3000!' );
 });
+process.on('uncaughtException', function (err) {
+    console.log(err);
+}); 
