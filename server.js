@@ -14,7 +14,7 @@ var db = mysql.createConnection({
 
 });
 
-require('./route')(app, database);
+require('./route')(app, db);
 
 app.listen( 3000 , function () {
 db.connect( function (err) {
