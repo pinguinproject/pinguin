@@ -31,6 +31,7 @@ app.post('/users', function(req,res) {
 			res.send(JSON.stringify("Failed"));
 		}
 		else {
+			console.log("Insertion successful")
 			res.send(JSON.stringify("Success"));
 		}
 	});
