@@ -11,13 +11,14 @@ module.exports = function(app, db) {
 		var query = "INSERT INTO users (Firstname, Lastname, Completename, Birthdate, Sex, Mail, Phone) VALUES ('" + Firstname + "','" + Lastname + "','" + Completename +"','" +Birthdate+"'," +Sex+",'" +Mail+ "','" + Phone +"')"; 
 		db.query(query, (err, result, fields) => {
 			if (err) {
-				console.log("Insertion failed. Email already exists.");
-				res.send(JSON.stringify("Failed. Email already exists."));
+				console.log("Insertion failed.");
+				res.writeHead(404);
+				res.end("Failed");
 			}
 			//else if (req.body.Mail === )
 			else {
-				console.log("Insertion successful. Data inserted : " + req.body.Mail);
-				res.send(JSON.stringify("Success"));
+				console.log("Insertion successful. Data inserted : " + JSON.stringify(result));
+				res.end("Insertion successful. Data inserted : " + JSON.stringify(result));
 			}
 		});
 	});
@@ -77,10 +78,13 @@ module.exports = function(app, db) {
 
 	    db.query(query, (err, result, fields) => {         
 	    	if (err) {
-				res.send(JSON.stringify("Failed"));
+				console.log("Read failed.");
+				res.writeHead(404);
+				res.end("Read Failed");			
 			}
 			else {
-				res.send(JSON.stringify(result));
+				console.log("Read successful. Data : " + JSON.stringify(result));
+				res.end("Read successful. Data : " + JSON.stringify(result));
 			} 
 	    }); 
 	}); 
@@ -98,8 +102,15 @@ module.exports = function(app, db) {
 		var Phone = req.body.Phone;
 		var query = "UPDATE users SET " + "Firstname = (CASE WHEN ? IS NULL THEN Firstname ELSE ? END), " + "Lastname = (CASE WHEN ? IS NULL THEN Lastname ELSE ? END), " + "Completename = (CASE WHEN ? IS NULL THEN Completename ELSE ? END), " + "Birthdate = (CASE WHEN ? IS NULL THEN Birthdate ELSE ? END), " + "Sex = (CASE WHEN ? IS NULL THEN Sex ELSE ? END), " + "Mail = (CASE WHEN ? IS NULL THEN Mail ELSE ? END), " + "Phone = (CASE WHEN ? IS NULL THEN Phone ELSE ? END)" + "WHERE Id = " + id;
 		db.query(query, [Firstname, Firstname, Lastname, Lastname, Completename, Completename, Birthdate, Birthdate, Sex, Sex, Mail, Mail, Phone, Phone], (err, result, fields) => {
-			if (err) throw err;
-			res.send(JSON.stringify("Success. Modification occured."));
+			if (err) {
+				console.log("Update failed.");
+				res.writeHead(404);
+				res.end("Update Failed");			
+			}
+			else {
+				console.log("Update successful. Data updated : id ="+ req.params.id);
+				res.end("Update successful. Data updated : id ="+ req.params.id);
+			} 
 		});
 	});
 
@@ -109,10 +120,13 @@ module.exports = function(app, db) {
 		var query = "DELETE FROM users WHERE Id = " +id;
 		db.query(query, (err, result, fields) => {
 			if (err) {
-				res.send(JSON.stringify("Failed"));
+				console.log("Delete failed.");
+				res.writeHead(404);
+				res.end("Delete Failed");
 			}
 			else {
-				res.send(JSON.stringify("Success. Deletion occured."));
+				console.log("Delete successful. Data deleted : id = "+ req.params.id);
+				res.end("Delete successful. Data deleted : id = "+ req.params.id);
 			}
 		});
 	});
