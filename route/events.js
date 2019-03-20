@@ -7,15 +7,16 @@ module.exports = function(app, db) {
 	var Full = req.body.Full;
 	var Name = req.body.Name;
 	var Description = req.body.Description;
-	var query = "INSERT INTO events (Date, Place, Id_nest, Nb_people, Full, Name, Description) VALUES ('" + Date + "','" + Place + "','" + Id_nest +"','" + Nb_people + "','" + Full + "','" + Name + "','" + Description + "')"; 
+    var Id_creator = req.body.Id_creator;
+	var query = "INSERT INTO events (Date, Place, Id_nest, Nb_people, Full, Name, Description, Id_creator) VALUES ('" + Date + "','" + Place + "','" + Id_nest +"','" + Nb_people + "','" + Full + "','" + Name + "','" + Description + "','" + Id_creator + "')"; 
 	db.query(query, function(err, result, fields) {
 		if (err) {
 			res.writeHead(404)
-			res.end("Failed");
+			res.end("Failed " + JSON.stringify(result));
 		}
 		else {
 			res.writeHead(200)
-			res.end("Success");
+			res.end("Success " + JSON.stringify(result));
 		}
 	});
 });
@@ -24,7 +25,7 @@ module.exports = function(app, db) {
 //For events : ALL DATA 
 app.get('/events', function(req, res) {     
 	var query = "SELECT * FROM events";    
-	var conditions = ["Date", "Place", "Id_nest", "Nb_people", "Full", "Name", "Description"]; 
+	var conditions = ["Date", "Place", "Id_nest", "Nb_people", "Full", "Name", "Description", "Id_creator"]; 
 
 	//SELECTION
     for (var index in conditions) {         
@@ -95,8 +96,9 @@ app.get('/events', function(req, res) {
         var Full = req.body.Full;
         var Name = req.body.Name;
         var Description = req.body.Description;
-        var query = "UPDATE events SET " + "Date = (CASE WHEN ? IS NULL THEN Date ELSE ? END), " + "Place = (CASE WHEN ? IS NULL THEN Place ELSE ? END), " + "Id_nest = (CASE WHEN ? IS NULL THEN Id_nest ELSE ? END), " + "Nb_people = (CASE WHEN ? IS NULL THEN Nb_people ELSE ? END)" + "Full = (CASE WHEN ? IS NULL THEN Full ELSE ? END), " + "Name = (CASE WHEN ? IS NULL THEN Name ELSE ? END), " + "Description = (CASE WHEN ? IS NULL THEN Description ELSE ? END), " + "WHERE Id = " + id;
-        db.query(query, [Date, Date, Place, Place, Id_nest, Id_nest, Nb_people, Nb_people, Full, Full, Name, Name, Description, Description], (err, result, fields) => {
+        var Id_creator = req.body.Id_creator;
+        var query = "UPDATE events SET " + "Date = (CASE WHEN ? IS NULL THEN Date ELSE ? END), " + "Place = (CASE WHEN ? IS NULL THEN Place ELSE ? END), " + "Id_nest = (CASE WHEN ? IS NULL THEN Id_nest ELSE ? END), " + "Nb_people = (CASE WHEN ? IS NULL THEN Nb_people ELSE ? END), " + "Full = (CASE WHEN ? IS NULL THEN Full ELSE ? END), " + "Name = (CASE WHEN ? IS NULL THEN Name ELSE ? END), " + "Description = (CASE WHEN ? IS NULL THEN Description ELSE ? END), " + "Id_creator = (CASE WHEN ? IS NULL THEN Id_creator ELSE ? END)" + "WHERE Id = " + id;
+        db.query(query, [Date, Date, Place, Place, Id_nest, Id_nest, Nb_people, Nb_people, Full, Full, Name, Name, Description, Description, Id_creator, Id_creator], (err, result, fields) => {
             if (err) {
                 console.log("Update failed.");
                 res.writeHead(404);
@@ -113,7 +115,7 @@ app.get('/events', function(req, res) {
 app.get('/events/:id', function(req, res) {     
 	var id = req.params.id;
 	var query = "SELECT * FROM events WHERE Id = " +id;    
-	var conditions = ["Date", "Place", "Id_nest", "Nb_people", "Full", "Name", "Description"]; 
+	var conditions = ["Date", "Place", "Id_nest", "Nb_people", "Full", "Name", "Description", "Id_creator"]; 
 
 	//SELECTION
     for (var index in conditions) {         
