@@ -4,7 +4,6 @@ module.exports = function(app, db) {
 	var Id_receive = req.body.Id_receive;
 	var Date = req.body.Date;
 	var Description = req.body.Description;
-	console.log("'"+ Id_send + "','" + Id_receive + "','" + Date +"','" +Description+"'")
 	var query = "INSERT INTO messages (Id_send, Id_receive, Date, Description) VALUES ('" + Id_send + "','" + Id_receive + "','" + Date +"','" + Description +"')"; 
 	db.query(query, function(err, result, fields) {
 		if (err) {
@@ -149,7 +148,28 @@ app.get('/messages/:id', function(req, res) {
 		}
     }); 
 
-});  
+}); 
+
+//UPDATE
+    app.put('/comments/:id', (req,res) => {
+     var id = req.params.id;
+     var Id_send = req.body.Id_send;
+     var Id_receive = req.body.Id_receive;
+     var Date = req.body.Date;
+     var Description = req.body.Description;
+     var query = "UPDATE messages SET " + "Id_send = (CASE WHEN ? IS NULL THEN Id_send ELSE ? END), " + "Id_receive = (CASE WHEN ? IS NULL THEN Id_receive ELSE ? END), " + "Date = (CASE WHEN ? IS NULL THEN Date ELSE ? END), " + "Description = (CASE WHEN ? IS NULL THEN Description ELSE ? END)" + "WHERE Id = " + id;
+     db.query(query, [Id_send, Id_send, Id_receive, Id_receive, Date, Date, Description, Description], (err, result, fields) => {
+        if (err) {
+            console.log("Update failed.");
+            res.writeHead(404);
+            res.end("Update Failed");           
+        }
+        else {
+            console.log("Update successful. Data updated : id ="+ req.params.id);
+            res.end("Update successful. Data updated : id ="+ req.params.id);
+        } 
+    });
+});
 
 //ROADS FOR DELETE
 //In users table :

@@ -1,7 +1,7 @@
 module.exports = function(app, db) {
-  app.post('/nest', (req, res) => {
+  app.post('/nests', (req, res) => {
 		var Name = req.body.Name;
-		var query = "INSERT INTO nest (Name) VALUES ('" + Name + "')"; 
+		var query = "INSERT INTO nests (Name) VALUES ('" + Name + "')"; 
 		db.query(query, (err, result, fields) => {
 			if (err) {
 				console.log("Insertion failed.");
@@ -18,8 +18,8 @@ module.exports = function(app, db) {
 
 
   //READ
-	app.get('/nest', (req, res) => {     
-		var query = "SELECT * FROM nest";    
+	app.get('/nests', (req, res) => {     
+		var query = "SELECT * FROM nests";    
 		var conditions = ["Name", "Id"]; 
 
 		//SELECTION
@@ -84,10 +84,10 @@ module.exports = function(app, db) {
 
 
 	//UPDATE
-	app.put('/nest/:id', (req,res) => {
+	app.put('/nests/:id', (req,res) => {
 		var id = req.params.id;
 		var Name = req.body.Name;
-		var query = "UPDATE nest SET " + "Name = ('" +Name+"') " + "WHERE Id = " + id;
+		var query = "UPDATE nests SET " + "Name = ('" +Name+"') " + "WHERE Id = " + id;
 		db.query(query, (err, result, fields) => {
 			if (err) {
 				console.log("Update failed.");
@@ -103,9 +103,9 @@ module.exports = function(app, db) {
 
 
 	//DELETE
-	app.delete('/nest/:id', (req,res) => {
+	app.delete('/nests/:id', (req,res) => {
 		var id = req.params.id;
-		var query = "DELETE FROM nest WHERE Id = " +id;
+		var query = "DELETE FROM nests WHERE Id = " +id;
 		db.query(query, (err, result, fields) => {
 			if (err) {
 				console.log("Delete failed.");
