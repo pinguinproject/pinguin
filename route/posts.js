@@ -97,7 +97,7 @@ module.exports = function(app, db) {
 		var Date = req.body.Date;
 		var Url = req.body.Url;
 		var query = "UPDATE posts SET " + "Type = (CASE WHEN ? IS NULL THEN Type ELSE ? END), " + "Id_user = (CASE WHEN ? IS NULL THEN Id_user ELSE ? END), " + "Id_event = (CASE WHEN ? IS NULL THEN Id_event ELSE ? END), " + "Date = (CASE WHEN ? IS NULL THEN Date ELSE ? END), " + "Url = (CASE WHEN ? IS NULL THEN Url ELSE ? END) " +"WHERE Id = " + id;
-		db.query(query, [Type, Type, Id_user, Id_user, Id_event, Id_event, Id_event, Id_event, Date, Date, Url, Url], (err, result, fields) => {
+		db.query(query, [Type, Type, Id_user, Id_user, Id_event, Id_event, Date, Date, Url, Url], (err, result, fields) => {
 			if (err) {
 				console.log("Update failed.");
 				res.writeHead(404);
