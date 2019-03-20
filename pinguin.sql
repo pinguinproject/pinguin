@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mer. 20 mars 2019 à 13:13
+-- Généré le :  mer. 20 mars 2019 à 14:16
 -- Version du serveur :  5.7.23
 -- Version de PHP :  7.2.10
 
@@ -119,7 +119,7 @@ DROP TABLE IF EXISTS `notifications`;
 CREATE TABLE IF NOT EXISTS `notifications` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Id_user` int(11) NOT NULL,
-  `description` text NOT NULL,
+  `Description` text NOT NULL,
   `Date` datetime NOT NULL,
   `Id_event` int(11) NOT NULL,
   PRIMARY KEY (`Id`),
@@ -136,11 +136,11 @@ CREATE TABLE IF NOT EXISTS `notifications` (
 DROP TABLE IF EXISTS `posts`;
 CREATE TABLE IF NOT EXISTS `posts` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` enum('Photo','Video') DEFAULT NULL,
+  `Type` enum('Photo','Video') DEFAULT NULL,
   `Id_user` int(11) NOT NULL,
   `Id_event` int(11) NOT NULL,
   `Date` datetime NOT NULL,
-  `url` varchar(100) NOT NULL,
+  `Url` varchar(100) NOT NULL,
   PRIMARY KEY (`Id`),
   KEY `post_ibfk_1` (`Id_user`),
   KEY `post_ibfk_2` (`Id_event`)
@@ -162,18 +162,19 @@ CREATE TABLE IF NOT EXISTS `users` (
   `Mail` varchar(30) NOT NULL,
   `Phone` varchar(20) NOT NULL,
   `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `rights` enum('admin','user') NOT NULL DEFAULT 'user',
+  `Rights` enum('admin','user') NOT NULL DEFAULT 'user',
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Mail` (`Mail`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`Firstname`, `Lastname`, `Completename`, `Birthdate`, `Sex`, `Mail`, `Phone`, `Id`, `rights`) VALUES
+INSERT INTO `users` (`Firstname`, `Lastname`, `Completename`, `Birthdate`, `Sex`, `Mail`, `Phone`, `Id`, `Rights`) VALUES
 ('Manu', 'Nguyen', 'Manu Nguyen', '1997-03-14', 0, 'emmanuel.nguyen14@gmail.com', '0620326983', 1, 'admin'),
-('Manu', 'Nguyen', 'Manu Nguyen', '1997-03-14', 0, 'emmanuel.nguyen@gmail.com', '0620326983', 2, 'user');
+('Manu', 'Nguyen', 'Manu Nguyen', '1997-03-14', 0, 'emmanuel.nguyen@gmail.com', '0620326983', 2, 'user'),
+('Manu', 'Nguyen', 'Manu Nguyen', '1997-03-14', 1, 'emmanuel.nguyen143@gmail.com', 'fezjnf', 5, 'admin');
 
 --
 -- Contraintes pour les tables déchargées

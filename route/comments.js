@@ -4,7 +4,7 @@ module.exports = function(app, db) {
 		var Id_event = req.body.Id_event;
 		var Description = req.body.Description;
 		var Date = req.body.Date;
-		var query = "INSERT INTO comments (Id_user, Id_event, Description, Date) VALUES ('" + Id_user + "','" + Id_event + "','" + Description + "','" + Date "')"; 
+		var query = "INSERT INTO comments (Id_user, Id_event, Description, Date) VALUES ('" + Id_user + "','" + Id_event + "','" + Description + "','" + Date + "')"; 
 		db.query(query, (err, result, fields) => {
 			if (err) {
 				console.log("Insertion failed.");
