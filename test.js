@@ -24,13 +24,13 @@ app.post('/users', function(req,res) {
 	var Sex = req.body.Sex;
 	var Mail = req.body.Mail;
 	var Phone = req.body.Phone;
-	//var Id = req.body.Id;
 	var query = "INSERT INTO users (Firstname, Lastname, Completename, Birthdate, Sex, Mail, Phone) VALUES ('" + Firstname + "','" + Lastname + "','" + Completename +"','" +Birthdate+"'," +Sex+",'" +Mail+ "','" + Phone +"')"; 
 	db.query(query, function(err, result, fields) {
 		if (err) {
 			res.send(JSON.stringify("Failed"));
 		}
 		else {
+			console.log("Insertion successful")
 			res.send(JSON.stringify("Success"));
 		}
 	});
