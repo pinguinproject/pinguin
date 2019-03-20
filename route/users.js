@@ -8,14 +8,19 @@ module.exports = function(app, db) {
 		var Sex = req.body.Sex;
 		var Mail = req.body.Mail;
 		var Phone = req.body.Phone;
-		var query = "INSERT INTO users (Firstname, Lastname, Completename, Birthdate, Sex, Mail, Phone) VALUES ('" + Firstname + "','" + Lastname + "','" + Completename +"','" +Birthdate+"'," +Sex+",'" +Mail+ "','" + Phone +"')"; 
+		var Rights = req.body.Rights;
+		var query = "INSERT INTO users (Firstname, Lastname, Completename, Birthdate, Sex, Mail, Phone, Rights) VALUES ('" + Firstname + "','" + Lastname + "','" + Completename +"','" +Birthdate+"'," +Sex+",'" +Mail+ "','" + Phone +"','"+Rights+"')"; 
 		db.query(query, (err, result, fields) => {
-			if (err) {
+			if (req.body.Rights !== "admin" || req.body.Rights !== "user") {
+				console.log("Insertion failed. Rights field must be user or admin");
+				res.writeHead(404);
+				res.end("Insertion failed. Rights field must be user or admin");
+			}
+			else if (err) {
 				console.log("Insertion failed.");
 				res.writeHead(404);
 				res.end("Failed");
 			}
-			//else if (req.body.Mail === )
 			else {
 				console.log("Insertion successful. Data inserted : " + JSON.stringify(result));
 				res.end("Insertion successful. Data inserted : " + JSON.stringify(result));
@@ -27,7 +32,7 @@ module.exports = function(app, db) {
   	//READ
 	app.get('/users', (req, res) => {     
 		var query = "SELECT * FROM users";    
-		var conditions = ["Firstname", "Lastname", "Completename", "Birthdate", "Sex", "Mail", "Phone", "Id"]; 
+		var conditions = ["Firstname", "Lastname", "Completename", "Birthdate", "Sex", "Mail", "Phone", "Id", "Rights"]; 
 
 		//SELECTION
 	    for (var index in conditions) {         
@@ -100,7 +105,8 @@ module.exports = function(app, db) {
 		var Sex = req.body.Sex;
 		var Mail = req.body.Mail;
 		var Phone = req.body.Phone;
-		var query = "UPDATE users SET " + "Firstname = (CASE WHEN ? IS NULL THEN Firstname ELSE ? END), " + "Lastname = (CASE WHEN ? IS NULL THEN Lastname ELSE ? END), " + "Completename = (CASE WHEN ? IS NULL THEN Completename ELSE ? END), " + "Birthdate = (CASE WHEN ? IS NULL THEN Birthdate ELSE ? END), " + "Sex = (CASE WHEN ? IS NULL THEN Sex ELSE ? END), " + "Mail = (CASE WHEN ? IS NULL THEN Mail ELSE ? END), " + "Phone = (CASE WHEN ? IS NULL THEN Phone ELSE ? END)" + "WHERE Id = " + id;
+		var Rights = req.body.Rights;
+		var query = "UPDATE users SET " + "Firstname = (CASE WHEN ? IS NULL THEN Firstname ELSE ? END), " + "Lastname = (CASE WHEN ? IS NULL THEN Lastname ELSE ? END), " + "Completename = (CASE WHEN ? IS NULL THEN Completename ELSE ? END), " + "Birthdate = (CASE WHEN ? IS NULL THEN Birthdate ELSE ? END), " + "Sex = (CASE WHEN ? IS NULL THEN Sex ELSE ? END), " + "Mail = (CASE WHEN ? IS NULL THEN Mail ELSE ? END), " + "Phone = (CASE WHEN ? IS NULL THEN Phone ELSE ? END), " + "Rights = (CASE WHEN ? IS NULL THEN Rights ELSE ? END)" + "WHERE Id = " + id;
 		db.query(query, [Firstname, Firstname, Lastname, Lastname, Completename, Completename, Birthdate, Birthdate, Sex, Sex, Mail, Mail, Phone, Phone], (err, result, fields) => {
 			if (err) {
 				console.log("Update failed.");
