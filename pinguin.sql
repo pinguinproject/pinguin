@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  jeu. 21 mars 2019 à 10:58
+-- Généré le :  jeu. 21 mars 2019 à 11:22
 -- Version du serveur :  5.7.23
 -- Version de PHP :  7.2.10
 
@@ -180,6 +180,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Rights` enum('admin','user') NOT NULL DEFAULT 'user',
   `Password` varchar(50) NOT NULL,
+  `Description` text NOT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Mail` (`Mail`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
@@ -188,8 +189,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`Firstname`, `Lastname`, `Completename`, `Birthdate`, `Sex`, `Mail`, `Phone`, `Id`, `Rights`, `Password`) VALUES
-('Manu', 'Nguyen', 'Manu Nguyen', '1997-03-14', 0, 'emmanuel.nguyen14@gmail.com', '0620326983', 1, 'admin', '');
+INSERT INTO `users` (`Firstname`, `Lastname`, `Completename`, `Birthdate`, `Sex`, `Mail`, `Phone`, `Id`, `Rights`, `Password`, `Description`) VALUES
+('Manu', 'Nguyen', 'Manu Nguyen', '1997-03-14', 0, 'emmanuel.nguyen14@gmail.com', '0620326983', 1, 'admin', '', '');
 
 -- --------------------------------------------------------
 
