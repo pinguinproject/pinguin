@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  jeu. 21 mars 2019 à 09:39
+-- Généré le :  jeu. 21 mars 2019 à 10:58
 -- Version du serveur :  5.7.23
 -- Version de PHP :  7.2.10
 
@@ -191,6 +191,45 @@ CREATE TABLE IF NOT EXISTS `users` (
 INSERT INTO `users` (`Firstname`, `Lastname`, `Completename`, `Birthdate`, `Sex`, `Mail`, `Phone`, `Id`, `Rights`, `Password`) VALUES
 ('Manu', 'Nguyen', 'Manu Nguyen', '1997-03-14', 0, 'emmanuel.nguyen14@gmail.com', '0620326983', 1, 'admin', '');
 
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `users_in_events`
+--
+
+DROP TABLE IF EXISTS `users_in_events`;
+CREATE TABLE IF NOT EXISTS `users_in_events` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `Id_user` int(11) NOT NULL,
+  `Id_event` int(11) NOT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `Id_event` (`Id_event`),
+  KEY `Id_user` (`Id_user`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `users_in_nests`
+--
+
+DROP TABLE IF EXISTS `users_in_nests`;
+CREATE TABLE IF NOT EXISTS `users_in_nests` (
+  `Id_user` int(11) NOT NULL,
+  `Id_nest` int(11) NOT NULL,
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`Id`),
+  KEY `Id_nest` (`Id_nest`),
+  KEY `Id_user` (`Id_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `users_in_nests`
+--
+
+INSERT INTO `users_in_nests` (`Id_user`, `Id_nest`, `Id`) VALUES
+(1, 1, 1);
+
 --
 -- Contraintes pour les tables déchargées
 --
@@ -229,6 +268,20 @@ ALTER TABLE `notifications`
 ALTER TABLE `posts`
   ADD CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`Id_user`) REFERENCES `users` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `posts_ibfk_2` FOREIGN KEY (`Id_event`) REFERENCES `events` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `users_in_events`
+--
+ALTER TABLE `users_in_events`
+  ADD CONSTRAINT `users_in_events_ibfk_1` FOREIGN KEY (`Id_event`) REFERENCES `events` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `users_in_events_ibfk_2` FOREIGN KEY (`Id_user`) REFERENCES `users` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `users_in_nests`
+--
+ALTER TABLE `users_in_nests`
+  ADD CONSTRAINT `users_in_nests_ibfk_1` FOREIGN KEY (`Id_nest`) REFERENCES `nests` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `users_in_nests_ibfk_2` FOREIGN KEY (`Id_user`) REFERENCES `users` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
