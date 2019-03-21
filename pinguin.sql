@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  jeu. 21 mars 2019 à 11:22
+-- Généré le :  jeu. 21 mars 2019 à 11:39
 -- Version du serveur :  5.7.23
 -- Version de PHP :  7.2.10
 
@@ -69,6 +69,23 @@ CREATE TABLE IF NOT EXISTS `events` (
 
 INSERT INTO `events` (`Id`, `Date`, `Place`, `Id_nest`, `Nb_people`, `Full`, `Name`, `Description`, `Id_creator`) VALUES
 (2, '2019-03-12 00:00:00', 'dfzfgzrgz', 1, 52, 1, 'fjazfgn', 'greqgrq', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `friendships`
+--
+
+DROP TABLE IF EXISTS `friendships`;
+CREATE TABLE IF NOT EXISTS `friendships` (
+  `Id_user_send` int(11) NOT NULL,
+  `Id_user_receive` int(11) NOT NULL,
+  `Friendship` tinyint(1) NOT NULL,
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`Id`),
+  KEY `Id_user_receive` (`Id_user_receive`),
+  KEY `Id_user_send` (`Id_user_send`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -248,6 +265,13 @@ ALTER TABLE `comments`
 ALTER TABLE `events`
   ADD CONSTRAINT `events_ibfk_1` FOREIGN KEY (`Id_nest`) REFERENCES `nests` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `events_ibfk_2` FOREIGN KEY (`Id_creator`) REFERENCES `users` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `friendships`
+--
+ALTER TABLE `friendships`
+  ADD CONSTRAINT `friendships_ibfk_1` FOREIGN KEY (`Id_user_receive`) REFERENCES `users` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `friendships_ibfk_2` FOREIGN KEY (`Id_user_send`) REFERENCES `users` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `messages`
