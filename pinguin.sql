@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mer. 20 mars 2019 à 14:16
+-- Généré le :  jeu. 21 mars 2019 à 09:39
 -- Version du serveur :  5.7.23
 -- Version de PHP :  7.2.10
 
@@ -61,7 +61,14 @@ CREATE TABLE IF NOT EXISTS `events` (
   UNIQUE KEY `Name` (`Name`),
   KEY `Id_nest` (`Id_nest`),
   KEY `events_ibfk_2` (`Id_creator`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `events`
+--
+
+INSERT INTO `events` (`Id`, `Date`, `Place`, `Id_nest`, `Nb_people`, `Full`, `Name`, `Description`, `Id_creator`) VALUES
+(2, '2019-03-12 00:00:00', 'dfzfgzrgz', 1, 52, 1, 'fjazfgn', 'greqgrq', 1);
 
 -- --------------------------------------------------------
 
@@ -80,13 +87,6 @@ CREATE TABLE IF NOT EXISTS `messages` (
   KEY `messages_ibfk_1` (`Id_send`),
   KEY `messages_ibfk_2` (`Id_receive`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Déchargement des données de la table `messages`
---
-
-INSERT INTO `messages` (`Id_send`, `Id_receive`, `Date`, `Description`, `Id`) VALUES
-(1, 2, '0000-00-00 00:00:00', 'Salut manu cest manu !', 1);
 
 -- --------------------------------------------------------
 
@@ -125,7 +125,14 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   PRIMARY KEY (`Id`),
   KEY `Id_user` (`Id_user`),
   KEY `Id_event` (`Id_event`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `notifications`
+--
+
+INSERT INTO `notifications` (`Id`, `Id_user`, `Description`, `Date`, `Id_event`) VALUES
+(2, 1, 'MOCHE', '1998-03-17 11:00:00', 2);
 
 -- --------------------------------------------------------
 
@@ -144,7 +151,16 @@ CREATE TABLE IF NOT EXISTS `posts` (
   PRIMARY KEY (`Id`),
   KEY `post_ibfk_1` (`Id_user`),
   KEY `post_ibfk_2` (`Id_event`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `posts`
+--
+
+INSERT INTO `posts` (`Id`, `Type`, `Id_user`, `Id_event`, `Date`, `Url`) VALUES
+(4, 'Photo', 1, 2, '1998-03-17 11:00:00', 'undefined'),
+(6, 'Photo', 1, 2, '1998-03-17 11:00:00', 'undefined'),
+(9, 'Video', 1, 2, '1998-03-17 11:00:00', 'xd');
 
 -- --------------------------------------------------------
 
@@ -163,6 +179,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `Phone` varchar(20) NOT NULL,
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Rights` enum('admin','user') NOT NULL DEFAULT 'user',
+  `Password` varchar(50) NOT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Mail` (`Mail`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
@@ -171,10 +188,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`Firstname`, `Lastname`, `Completename`, `Birthdate`, `Sex`, `Mail`, `Phone`, `Id`, `Rights`) VALUES
-('Manu', 'Nguyen', 'Manu Nguyen', '1997-03-14', 0, 'emmanuel.nguyen14@gmail.com', '0620326983', 1, 'admin'),
-('Manu', 'Nguyen', 'Manu Nguyen', '1997-03-14', 0, 'emmanuel.nguyen@gmail.com', '0620326983', 2, 'user'),
-('Manu', 'Nguyen', 'Manu Nguyen', '1997-03-14', 1, 'emmanuel.nguyen143@gmail.com', 'fezjnf', 5, 'admin');
+INSERT INTO `users` (`Firstname`, `Lastname`, `Completename`, `Birthdate`, `Sex`, `Mail`, `Phone`, `Id`, `Rights`, `Password`) VALUES
+('Manu', 'Nguyen', 'Manu Nguyen', '1997-03-14', 0, 'emmanuel.nguyen14@gmail.com', '0620326983', 1, 'admin', '');
 
 --
 -- Contraintes pour les tables déchargées
