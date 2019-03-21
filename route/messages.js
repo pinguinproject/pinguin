@@ -8,11 +8,11 @@ module.exports = function(app, db) {
 	db.query(query, function(err, result, fields) {
 		if (err) {
 			res.writeHead(404)
-			res.end("Failed");
+			res.end("Failed " + JSON.stringify(result));
 		}
 		else {
 			res.writeHead(200)
-			res.end("Success");
+			res.end("Success " + JSON.stringify(result));
 		}
 	});
 });
@@ -151,7 +151,7 @@ app.get('/messages/:id', function(req, res) {
 }); 
 
 //UPDATE
-    app.put('/comments/:id', (req,res) => {
+    app.put('/messages/:id', (req,res) => {
      var id = req.params.id;
      var Id_send = req.body.Id_send;
      var Id_receive = req.body.Id_receive;

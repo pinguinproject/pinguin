@@ -13,8 +13,8 @@ module.exports = function(app, db) {
 			}
 			//else if (req.body.Mail === )
 			else {
-				console.log("Insertion successful. Data inserted : " + req.body.Name);
-				res.end("Insertion successful. Data inserted : " + req.body.Name);
+				console.log("Insertion successful. Data inserted : " + JSON.stringify(result));
+				res.end("Insertion successful. Data inserted : " + JSON.stringify(result));
 			}
 		});
   });
