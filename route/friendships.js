@@ -116,7 +116,7 @@ app.get('/friendships/:id', (req, res) => {
 	        } 
 	        
 	        query = query.slice(0, -1);     
-	    }
+	    }	
 
 	    //FILTERING
 	    if ("fields" in req.query) {         
@@ -142,6 +142,69 @@ app.get('/friendships/:id', (req, res) => {
 			} 
 	    }); 
 	}); 
+
+app.get('/friendships/users/:id', (req, res) => {
+		var id = req.params.id;     
+		var query = "SELECT * FROM friendships WHERE Id_user_send = " + id + " OR Id_user_receive = " + id;    
+		var conditions = ["Id_user_send", "Id_user_receive", "Friendship"];
+
+		//SELECTION
+	    for (var index in conditions) {         
+	    	if (conditions[index] in req.query) {             
+	    		if (query.indexOf("WHERE") < 0) {                 
+	    			query += " WHERE";             
+	    		} else {                 
+	    			query += " AND";             
+	    		} 
+
+	            query += " " + conditions[index] + "='" + req.query[conditions[index]] + "'";         
+	        }     
+	    } 
+
+	    //SORTING
+	    if ("sort" in req.query) {         
+			var sort = req.query["sort"].split(",");         
+			query += " ORDER BY"; 
+	        
+	        for (var index in sort) {             
+	        	var direction = sort[index].substr(0, 1);             
+	        	var field = sort[index].substr(1); 
+	            
+	            query += " " + field; 
+
+	            if (direction == "-")                 
+	            	query += " DESC,";             
+	            else                 
+	            	query += " ASC,";         
+	        } 
+	        
+	        query = query.slice(0, -1);     
+	    }
+
+	    //FILTERING
+	    if ("fields" in req.query) {         
+	    	query = query.replace("*", req.query["fields"]);     
+	    }
+
+	    //PAGINATION
+	    if ("limit" in req.query) {         
+	    	query += " LIMIT " + req.query["limit"];
+
+	        if ("offset" in req.query) {             
+	        	query += " OFFSET " + req.query["offset"];         
+	        }     
+	    }
+
+	    db.query(query, (err, result, fields) => {         
+	    	if (err) {
+				res.writeHead(404);
+				res.end("Read Failed");			
+			}
+			else {
+				res.end("Read successful. Data : " + JSON.stringify(result));
+			} 
+	    }); 
+	});
 
 	//UPDATE
 	//Roads for UPDATE (total and partial)

@@ -7,6 +7,7 @@ const notifications = require('./notifications.js');
 const posts = require('./posts.js');
 const users_in_nests = require('./users_in_nests.js');
 const users_in_events = require('./users_in_events.js');
+const friendships = require ('./friendships.js');
 
 module.exports = function(app, db) {
   events(app, db);
@@ -18,5 +19,6 @@ module.exports = function(app, db) {
   posts(app,db);
   users_in_nests(app,db);
   users_in_events(app,db);
+  friendships(app,db);
   // Other route groups could go here, in the future
 };
