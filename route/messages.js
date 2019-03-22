@@ -11,7 +11,6 @@ module.exports = function(app, db) {
 			res.end("Failed " + JSON.stringify(result));
 		}
 		else {
-			res.writeHead(200)
 			res.end("Success " + JSON.stringify(result));
 		}
 	});
@@ -76,7 +75,6 @@ app.get('/messages', function(req, res) {
 			res.end("Failed");
 		}
 		else {
-			res.writeHead(200)
 			res.end(JSON.stringify(result));
 		} 
     }); 
@@ -143,9 +141,72 @@ app.get('/messages/:id', function(req, res) {
 			res.end("Failed");
 		}
 		else {
-			res.writeHead(200)
 			res.end(JSON.stringify(result));
 		}
+    }); 
+
+}); 
+
+app.get('/messages/users/:id', function(req, res) {     
+    var id = req.params.id;
+    var query = "SELECT * FROM messages WHERE Id_send = " + id + " OR Id_receive = " + id;    
+    var conditions = ["Id_send", "Id_receive", "Date", "Description", "Id"]; 
+
+    //SELECTION
+    for (var index in conditions) {         
+        if (conditions[index] in req.query) {             
+            if (query.indexOf("WHERE") < 0) {                 
+                query += " WHERE";             
+            } else {                 
+                query += " AND";             
+            } 
+
+            query += " " + conditions[index] + "='" + req.query[conditions[index]] + "'";         
+        }     
+    } 
+
+    //SORTING
+    if ("sort" in req.query) {         
+        var sort = req.query["sort"].split(",");         
+        query += " ORDER BY"; 
+        
+        for (var index in sort) {             
+            var direction = sort[index].substr(0, 1);             
+            var field = sort[index].substr(1); 
+            
+            query += " " + field; 
+
+            if (direction == "-")                 
+                query += " DESC,";             
+            else                 
+                query += " ASC,";         
+        } 
+        
+        query = query.slice(0, -1);     
+    }
+
+    //FILTERING
+    if ("fields" in req.query) {         
+        query = query.replace("*", req.query["fields"]);     
+    }
+
+    //PAGINATION
+    if ("limit" in req.query) {         
+        query += " LIMIT " + req.query["limit"];
+
+        if ("offset" in req.query) {             
+            query += " OFFSET " + req.query["offset"];         
+        }     
+    }
+
+    db.query(query, function(err, result, fields) {         
+        if (err) {
+            res.writeHead(404)
+            res.end("Failed");
+        }
+        else {
+            res.end(JSON.stringify(result));
+        }
     }); 
 
 }); 
@@ -182,7 +243,6 @@ app.delete('/messages/:id', function(req,res) {
 			res.end("Failed");
 		}
 		else {
-			res.writeHead(200)
 			res.end("Success");
 		}
 	});
