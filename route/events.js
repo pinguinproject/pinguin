@@ -15,7 +15,6 @@ module.exports = function(app, db) {
 			res.end("Failed " + JSON.stringify(result));
 		}
 		else {
-			res.writeHead(200)
 			res.end("Success " + JSON.stringify(result));
 		}
 	});
@@ -80,7 +79,6 @@ app.get('/events', function(req, res) {
 			res.end("Failed");
 		}
 		else {
-			res.writeHead(200)
 			res.end(JSON.stringify(result));
 		} 
     }); 
@@ -100,12 +98,10 @@ app.get('/events', function(req, res) {
         var query = "UPDATE events SET " + "Date = (CASE WHEN ? IS NULL THEN Date ELSE ? END), " + "Place = (CASE WHEN ? IS NULL THEN Place ELSE ? END), " + "Id_nest = (CASE WHEN ? IS NULL THEN Id_nest ELSE ? END), " + "Nb_people = (CASE WHEN ? IS NULL THEN Nb_people ELSE ? END), " + "Full = (CASE WHEN ? IS NULL THEN Full ELSE ? END), " + "Name = (CASE WHEN ? IS NULL THEN Name ELSE ? END), " + "Description = (CASE WHEN ? IS NULL THEN Description ELSE ? END), " + "Id_creator = (CASE WHEN ? IS NULL THEN Id_creator ELSE ? END)" + "WHERE Id = " + id;
         db.query(query, [Date, Date, Place, Place, Id_nest, Id_nest, Nb_people, Nb_people, Full, Full, Name, Name, Description, Description, Id_creator, Id_creator], (err, result, fields) => {
             if (err) {
-                console.log("Update failed.");
                 res.writeHead(404);
                 res.end("Update Failed");           
             }
             else {
-                console.log("Update successful. Data updated : id ="+ req.params.id);
                 res.end("Update successful. Data updated : id ="+ req.params.id);
             } 
         });
@@ -170,7 +166,6 @@ app.get('/events/:id', function(req, res) {
 			res.end("Failed");
 		}
 		else {
-			res.writeHead(200)
 			res.end(JSON.stringify(result));
 		}
     }); 
@@ -235,7 +230,6 @@ app.get('/events/nests/:id_nest', function(req, res) {
             res.end("Failed");
         }
         else {
-            res.writeHead(200)
             res.end(JSON.stringify(result));
         }
     }); 
@@ -300,7 +294,6 @@ app.get('/events/users/:id_creator', function(req, res) {
             res.end("Failed");
         }
         else {
-            res.writeHead(200)
             res.end(JSON.stringify(result));
         }
     }); 
@@ -318,7 +311,6 @@ app.delete('/events/:id', function(req,res) {
 			res.end("Failed");
 		}
 		else {
-			res.writeHead(200)
 			res.end("Success");
 		}
 	});

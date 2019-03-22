@@ -8,13 +8,11 @@ module.exports = function(app, db) {
 		var query = "INSERT INTO notifications (Id_user, Description, Date, Id_event) VALUES (" + Id_user + ",'" + Description + "','" + Date +"'," +Id_event+")"; 
 		db.query(query, (err, result, fields) => {
 			if (err) {
-				console.log("Insertion failed.");
 				res.writeHead(404);
 				res.end("Failed");
 			}
 			//else if (req.body.Mail === )
 			else {
-				console.log("Insertion successful. Data inserted : " + JSON.stringify(result));
 				res.end("Insertion successful. Data inserted : " + JSON.stringify(result));
 			}
 		});
@@ -75,12 +73,10 @@ module.exports = function(app, db) {
 
 	    db.query(query, (err, result, fields) => {         
 	    	if (err) {
-				console.log("Read failed.");
 				res.writeHead(404);
 				res.end("Read Failed");			
 			}
 			else {
-				console.log("Read successful. Data : " + JSON.stringify(result));
 				res.end("Read successful. Data : " + JSON.stringify(result));
 			} 
 	    }); 
@@ -140,12 +136,10 @@ module.exports = function(app, db) {
 
 	    db.query(query, (err, result, fields) => {         
 	    	if (err) {
-				console.log("Read failed.");
 				res.writeHead(404);
 				res.end("Read Failed");			
 			}
 			else {
-				console.log("Read successful. Data : " + JSON.stringify(result));
 				res.end("Read successful. Data : " + JSON.stringify(result));
 			} 
 	    }); 
@@ -205,12 +199,10 @@ module.exports = function(app, db) {
 
 	    db.query(query, (err, result, fields) => {         
 	    	if (err) {
-				console.log("Read failed.");
 				res.writeHead(404);
 				res.end("Read Failed");			
 			}
 			else {
-				console.log("Read successful. Data : " + JSON.stringify(result));
 				res.end("Read successful. Data : " + JSON.stringify(result));
 			} 
 	    }); 
@@ -227,12 +219,10 @@ module.exports = function(app, db) {
 		var query = "UPDATE notifications SET " + "Id_user = (CASE WHEN ? IS NULL THEN Id_user ELSE ? END), " + "Description = (CASE WHEN ? IS NULL THEN Description ELSE ? END), " + "Date = (CASE WHEN ? IS NULL THEN Date ELSE ? END), " + "Id_event = (CASE WHEN ? IS NULL THEN Id_event ELSE ? END) " + "WHERE Id = " + id;
 		db.query(query, [Id_user, Id_user, Description, Description, Date, Date, Id_event, Id_event], (err, result, fields) => {
 			if (err) {
-				console.log("Update failed.");
 				res.writeHead(404);
 				res.end("Update Failed");			
 			}
 			else {
-				console.log("Update successful. Data updated : id ="+ req.params.id);
 				res.end("Update successful. Data updated : id ="+ req.params.id);
 			} 
 		});
@@ -245,12 +235,10 @@ module.exports = function(app, db) {
 		var query = "DELETE FROM notifications WHERE Id = " +id;
 		db.query(query, (err, result, fields) => {
 			if (err) {
-				console.log("Delete failed.");
 				res.writeHead(404);
 				res.end("Delete Failed");
 			}
 			else {
-				console.log("Delete successful. Data deleted : id = "+ req.params.id);
 				res.end("Delete successful. Data deleted : id = "+ req.params.id);
 			}
 		});

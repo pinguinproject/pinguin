@@ -7,13 +7,11 @@ module.exports = function(app, db) {
 		var query = "INSERT INTO comments (Id_user, Id_event, Description, Date) VALUES ('" + Id_user + "','" + Id_event + "','" + Description + "','" + Date + "')"; 
 		db.query(query, (err, result, fields) => {
 			if (err) {
-				console.log("Insertion failed.");
 				res.writeHead(404);
 				res.end("Failed");
 			}
 			//else if (req.body.Mail === )
 			else {
-				console.log("Insertion successful. Data inserted : " + JSON.stringify(result));
 				res.end("Insertion successful. Data inserted : " + JSON.stringify(result));
 			}
 		});
@@ -74,12 +72,10 @@ module.exports = function(app, db) {
 
 	    db.query(query, (err, result, fields) => {         
 	    	if (err) {
-				console.log("Read failed.");
 				res.writeHead(404);
 				res.end("Read Failed");			
 			}
 			else {
-				console.log("Read successful. Data : " + JSON.stringify(result));
 				res.end("Read successful. Data : " + JSON.stringify(result));
 			} 
 	    }); 
@@ -139,12 +135,10 @@ app.get('/comments/:id', (req, res) => {
 
 	    db.query(query, (err, result, fields) => {         
 	    	if (err) {
-				console.log("Read failed.");
 				res.writeHead(404);
 				res.end("Read Failed");			
 			}
 			else {
-				console.log("Read successful. Data : " + JSON.stringify(result));
 				res.end("Read successful. Data : " + JSON.stringify(result));
 			} 
 	    }); 
@@ -204,12 +198,10 @@ app.get('/comments/events/:id_event', (req, res) => {
 
 	    db.query(query, (err, result, fields) => {         
 	    	if (err) {
-				console.log("Read failed.");
 				res.writeHead(404);
 				res.end("Read Failed");			
 			}
 			else {
-				console.log("Read successful. Data : " + JSON.stringify(result));
 				res.end("Read successful. Data : " + JSON.stringify(result));
 			} 
 	    }); 
@@ -269,12 +261,10 @@ app.get('/comments/events/:id_event', (req, res) => {
 
 	    db.query(query, (err, result, fields) => {         
 	    	if (err) {
-				console.log("Read failed.");
 				res.writeHead(404);
 				res.end("Read Failed");			
 			}
 			else {
-				console.log("Read successful. Data : " + JSON.stringify(result));
 				res.end("Read successful. Data : " + JSON.stringify(result));
 			} 
 	    }); 
@@ -334,12 +324,10 @@ app.get('/comments/events/:id_event', (req, res) => {
 
 	    db.query(query, (err, result, fields) => {         
 	    	if (err) {
-				console.log("Read failed.");
 				res.writeHead(404);
 				res.end("Read Failed");			
 			}
 			else {
-				console.log("Read successful. Data : " + JSON.stringify(result));
 				res.end("Read successful. Data : " + JSON.stringify(result));
 			} 
 	    }); 
@@ -355,12 +343,10 @@ app.get('/comments/events/:id_event', (req, res) => {
 		var query = "UPDATE comments SET " + "Id_user = (CASE WHEN ? IS NULL THEN Id_user ELSE ? END), " + "Id_event = (CASE WHEN ? IS NULL THEN Id_event ELSE ? END), " + "Description = (CASE WHEN ? IS NULL THEN Description ELSE ? END), " + "Date = (CASE WHEN ? IS NULL THEN Date ELSE ? END)" + "WHERE Id = " + id;
 		db.query(query, [Id_user, Id_user, Id_event, Id_event, Description, Description, Date, Date], (err, result, fields) => {
 			if (err) {
-				console.log("Update failed.");
 				res.writeHead(404);
 				res.end("Update Failed");			
 			}
 			else {
-				console.log("Update successful. Data updated : id ="+ req.params.id);
 				res.end("Update successful. Data updated : id ="+ req.params.id);
 			} 
 		});
@@ -373,12 +359,10 @@ app.get('/comments/events/:id_event', (req, res) => {
 		var query = "DELETE FROM comments WHERE Id = " +id;
 		db.query(query, (err, result, fields) => {
 			if (err) {
-				console.log("Delete failed.");
 				res.writeHead(404);
 				res.end("Delete Failed");
 			}
 			else {
-				console.log("Delete successful. Data deleted : id = "+ req.params.id);
 				res.end("Delete successful. Data deleted : id = "+ req.params.id);
 			}
 		});
