@@ -175,7 +175,137 @@ app.get('/events/:id', function(req, res) {
 		}
     }); 
 
-});  
+});
+
+app.get('/events/nests/:id_nest', function(req, res) {     
+    var Id_nest = req.params.id_nest;
+    var query = "SELECT * FROM events WHERE Id_nest = " + Id_nest;    
+    var conditions = ["Date", "Place", "Id_nest", "Nb_people", "Full", "Name", "Description", "Id_creator"]; 
+
+    //SELECTION
+    for (var index in conditions) {         
+        if (conditions[index] in req.query) {             
+            if (query.indexOf("WHERE") < 0) {                 
+                query += " WHERE";             
+            } else {                 
+                query += " AND";             
+            } 
+
+            query += " " + conditions[index] + "='" + req.query[conditions[index]] + "'";         
+        }     
+    } 
+
+    //SORTING
+    if ("sort" in req.query) {         
+        var sort = req.query["sort"].split(",");         
+        query += " ORDER BY"; 
+        
+        for (var index in sort) {             
+            var direction = sort[index].substr(0, 1);             
+            var field = sort[index].substr(1); 
+            
+            query += " " + field; 
+
+            if (direction == "-")                 
+                query += " DESC,";             
+            else                 
+                query += " ASC,";         
+        } 
+        
+        query = query.slice(0, -1);     
+    }
+
+    //FILTERING
+    if ("fields" in req.query) {         
+        query = query.replace("*", req.query["fields"]);     
+    }
+
+    //PAGINATION
+    if ("limit" in req.query) {         
+        query += " LIMIT " + req.query["limit"];
+
+        if ("offset" in req.query) {             
+            query += " OFFSET " + req.query["offset"];         
+        }     
+    }
+
+    db.query(query, function(err, result, fields) {         
+        if (err) {
+            res.writeHead(404)
+            res.end("Failed");
+        }
+        else {
+            res.writeHead(200)
+            res.end(JSON.stringify(result));
+        }
+    }); 
+
+});   
+
+app.get('/events/users/:id_creator', function(req, res) {     
+    var Id_creator = req.params.id_creator;
+    var query = "SELECT * FROM events WHERE Id_creator = " + Id_creator;    
+    var conditions = ["Date", "Place", "Id_nest", "Nb_people", "Full", "Name", "Description", "Id_creator"]; 
+
+    //SELECTION
+    for (var index in conditions) {         
+        if (conditions[index] in req.query) {             
+            if (query.indexOf("WHERE") < 0) {                 
+                query += " WHERE";             
+            } else {                 
+                query += " AND";             
+            } 
+
+            query += " " + conditions[index] + "='" + req.query[conditions[index]] + "'";         
+        }     
+    } 
+
+    //SORTING
+    if ("sort" in req.query) {         
+        var sort = req.query["sort"].split(",");         
+        query += " ORDER BY"; 
+        
+        for (var index in sort) {             
+            var direction = sort[index].substr(0, 1);             
+            var field = sort[index].substr(1); 
+            
+            query += " " + field; 
+
+            if (direction == "-")                 
+                query += " DESC,";             
+            else                 
+                query += " ASC,";         
+        } 
+        
+        query = query.slice(0, -1);     
+    }
+
+    //FILTERING
+    if ("fields" in req.query) {         
+        query = query.replace("*", req.query["fields"]);     
+    }
+
+    //PAGINATION
+    if ("limit" in req.query) {         
+        query += " LIMIT " + req.query["limit"];
+
+        if ("offset" in req.query) {             
+            query += " OFFSET " + req.query["offset"];         
+        }     
+    }
+
+    db.query(query, function(err, result, fields) {         
+        if (err) {
+            res.writeHead(404)
+            res.end("Failed");
+        }
+        else {
+            res.writeHead(200)
+            res.end(JSON.stringify(result));
+        }
+    }); 
+
+});   
 
 //ROADS FOR DELETE
 //In users table :
