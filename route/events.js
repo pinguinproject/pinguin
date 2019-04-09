@@ -19,11 +19,10 @@ module.exports = function(app, db) {
 		}
 	});
 });
-
 //ROADS FOR READ 
 //For events : ALL DATA 
 app.get('/events', function(req, res) {     
-	var query = "SELECT * FROM events";    
+	var query = "SELECT * FROM events";   
 	var conditions = ["Date", "Place", "Id_nest", "Nb_people", "Full", "Name", "Description", "Id_creator"]; 
 
 	//SELECTION
@@ -83,6 +82,72 @@ app.get('/events', function(req, res) {
 		} 
     }); 
 
+});
+app.get('/events/:filter', function(req, res) {     
+    var filter = req.params.filter;
+    var query = "SELECT * FROM events";
+    var query2 = "SELECT * FROM nests WHERE Name = " + filter;    
+    var conditions = ["Date", "Place", "Id_nest", "Nb_people", "Full", "Name", "Description", "Id_creator"]; 
+
+    //SELECTION
+    for (var index in conditions) {         
+        if (conditions[index] in req.query) {             
+            if (query.indexOf("WHERE") < 0) {                 
+                query += " WHERE";             
+            } else {                 
+                query += " AND";             
+            } 
+
+            query += " " + conditions[index] + "='" + req.query[conditions[index]] + "'";         
+        }     
+    } 
+
+    //SORTING
+    if ("sort" in req.query) {         
+        var sort = req.query["sort"].split(",");         
+        query += " ORDER BY"; 
+        
+        for (var index in sort) {             
+            var direction = sort[index].substr(0, 1);             
+            var field = sort[index].substr(1); 
+            
+            query += " " + field; 
+
+            if (direction == "-")                 
+                query += " DESC,";             
+            else                 
+                query += " ASC,";         
+        } 
+        
+        query = query.slice(0, -1);     
+    }
+
+    //FILTERING
+    if ("fields" in req.query) {         
+        query = query.replace("*", req.query["fields"]);     
+    }
+
+    //PAGINATION
+    if ("limit" in req.query) {         
+        query += " LIMIT " + req.query["limit"];
+
+        if ("offset" in req.query) {             
+            query += " OFFSET " + req.query["offset"];         
+        }     
+    }
+    db.query(query2, (err2, result2, fields2) => {
+        console.log(result2);
+        query += " WHERE Id_nest = " + result2[0].Id;
+    db.query(query, (err, result, fields) => {         
+        if (err) {
+            res.writeHead(404)
+            res.end("Failed");
+        }
+        else {
+            res.end(JSON.stringify(result));
+        } 
+    }); 
+ });
 }); 
 //UPDATE
     app.put('/events/:id', (req,res) => {

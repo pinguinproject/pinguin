@@ -3,8 +3,31 @@ module.exports = function(app, db) {
   	app.post('/users_in_events', (req, res) => {
 		var Id_user = req.body.Id_user;
 		var Id_event = req.body.Id_event;
-		var query = "INSERT INTO users_in_events (Id_user, Id_event) VALUES ('" + Id_user + "','" + Id_event + "')"; 
-		db.query(query, (err, result, fields) => {
+		var query = "INSERT INTO users_in_events (Id_user, Id_event) VALUES ('" + Id_user + "','" + Id_event + "')";
+		var query2 = "SELECT COUNT(*) AS COUNT FROM users_in_events WHERE Id_event = " + Id_event;
+		var query3 = "SELECT Nb_people FROM events WHERE Id = " + Id_event;
+		var query4 = "UPDATE events SET Full=1 WHERE Id = " + Id_event;
+		db.query(query3, (err3, result3, fields3) => {
+			db.query(query2, (err2, result2, fields2) => {
+			if (err3) {
+				res.writeHead(404);
+				res.end("Failed getting Nb_people");
+			}
+			if (err2) {
+				res.writeHead(404);
+				res.end("Failed count");
+			}
+			if(result2[0].COUNT <= result3[0].Nb_people){
+				db.query(query, (err, result, fields) => {
+			if (result2[0].COUNT >= result3[0].Nb_people)
+			{
+				db.query(query4, (err4, result4, fields4) => {
+					if(err4) {
+						res.writeHead(404);
+						res.end("Failed udpdate to FULL");
+					}
+				})
+			}
 			if (err) {
 				res.writeHead(404);
 				res.end("Failed");
@@ -12,6 +35,12 @@ module.exports = function(app, db) {
 			else {
 				res.end("Insertion successful. Data inserted : " + JSON.stringify(result));
 			}
+				});
+			}
+			else {
+				res.end("Already Full");
+			}
+			});
 		});
 	});
 
@@ -146,7 +175,6 @@ app.get('/users_in_events/users/:id', function(req, res) {
     var id = req.params.id;
     var query = "SELECT * FROM events INNER JOIN users_in_events on events.Id=users_in_events.Id_event WHERE users_in_events.Id_user = " + id;    
     var conditions = ["Id_user", "Id_event"]; 
-
     //SELECTION
     for (var index in conditions) {         
         if (conditions[index] in req.query) {             
