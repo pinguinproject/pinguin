@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  jeu. 21 mars 2019 à 11:39
--- Version du serveur :  5.7.23
--- Version de PHP :  7.2.10
+-- Généré le :  mar. 09 avr. 2019 à 16:12
+-- Version du serveur :  5.7.19
+-- Version de PHP :  5.6.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -38,7 +38,14 @@ CREATE TABLE IF NOT EXISTS `comments` (
   PRIMARY KEY (`Id`),
   KEY `comments_ibfk_1` (`Id_user`),
   KEY `comments_ibfk_2` (`Id_event`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `comments`
+--
+
+INSERT INTO `comments` (`Id`, `Id_user`, `Id_event`, `Description`, `Date`) VALUES
+(4, 1, 2, 'porjazemraziojet', '2019-03-21 08:31:32');
 
 -- --------------------------------------------------------
 
@@ -61,14 +68,15 @@ CREATE TABLE IF NOT EXISTS `events` (
   UNIQUE KEY `Name` (`Name`),
   KEY `Id_nest` (`Id_nest`),
   KEY `events_ibfk_2` (`Id_creator`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `events`
 --
 
 INSERT INTO `events` (`Id`, `Date`, `Place`, `Id_nest`, `Nb_people`, `Full`, `Name`, `Description`, `Id_creator`) VALUES
-(2, '2019-03-12 00:00:00', 'dfzfgzrgz', 1, 52, 1, 'fjazfgn', 'greqgrq', 1);
+(2, '2019-03-12 00:00:00', 'dfzfgzrgz', 1, 52, 1, 'fjazfgn', 'greqgrq', 1),
+(3, '2019-03-21 12:35:00', 'paris', 1, 120, 0, 'argazelrojapzr', '', 1);
 
 -- --------------------------------------------------------
 
@@ -85,7 +93,14 @@ CREATE TABLE IF NOT EXISTS `friendships` (
   PRIMARY KEY (`Id`),
   KEY `Id_user_receive` (`Id_user_receive`),
   KEY `Id_user_send` (`Id_user_send`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `friendships`
+--
+
+INSERT INTO `friendships` (`Id_user_send`, `Id_user_receive`, `Friendship`, `Id`) VALUES
+(1, 6, 0, 3);
 
 -- --------------------------------------------------------
 
@@ -103,7 +118,14 @@ CREATE TABLE IF NOT EXISTS `messages` (
   PRIMARY KEY (`Id`),
   KEY `messages_ibfk_1` (`Id_send`),
   KEY `messages_ibfk_2` (`Id_receive`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `messages`
+--
+
+INSERT INTO `messages` (`Id_send`, `Id_receive`, `Date`, `Description`, `Id`) VALUES
+(6, 1, '2019-03-04 00:00:00', 'azerazgagzga', 2);
 
 -- --------------------------------------------------------
 
@@ -142,7 +164,7 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   PRIMARY KEY (`Id`),
   KEY `Id_user` (`Id_user`),
   KEY `Id_event` (`Id_event`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `notifications`
@@ -198,16 +220,18 @@ CREATE TABLE IF NOT EXISTS `users` (
   `Rights` enum('admin','user') NOT NULL DEFAULT 'user',
   `Password` varchar(50) NOT NULL,
   `Description` text NOT NULL,
+  `Address` varchar(50) NOT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Mail` (`Mail`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`Firstname`, `Lastname`, `Completename`, `Birthdate`, `Sex`, `Mail`, `Phone`, `Id`, `Rights`, `Password`, `Description`) VALUES
-('Manu', 'Nguyen', 'Manu Nguyen', '1997-03-14', 0, 'emmanuel.nguyen14@gmail.com', '0620326983', 1, 'admin', '', '');
+INSERT INTO `users` (`Firstname`, `Lastname`, `Completename`, `Birthdate`, `Sex`, `Mail`, `Phone`, `Id`, `Rights`, `Password`, `Description`, `Address`) VALUES
+('Manu', 'Nguyen', 'Manu Nguyen', '1997-03-14', 0, 'emmanuel.nguyen14@gmail.com', '0620326983', 1, 'admin', '', '', ''),
+('Julien', 'Chasport', 'JulienChasport', '2019-03-14', 0, 'julien.chasport@gmail.com', '+33619583722', 6, 'admin', 'aezr', 'zaegazegta', '');
 
 -- --------------------------------------------------------
 
@@ -223,7 +247,35 @@ CREATE TABLE IF NOT EXISTS `users_in_events` (
   PRIMARY KEY (`Id`),
   KEY `Id_event` (`Id_event`),
   KEY `Id_user` (`Id_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `users_in_events`
+--
+
+INSERT INTO `users_in_events` (`Id`, `Id_user`, `Id_event`) VALUES
+(1, 1, 3),
+(2, 1, 3),
+(3, 1, 3),
+(4, 1, 3),
+(5, 1, 3),
+(6, 1, 3),
+(7, 1, 3),
+(8, 1, 3),
+(9, 1, 3),
+(10, 1, 3),
+(11, 1, 3),
+(12, 1, 3),
+(13, 1, 3),
+(14, 1, 3),
+(15, 1, 3),
+(16, 1, 3),
+(17, 1, 3),
+(18, 1, 3),
+(19, 1, 3),
+(20, 1, 3),
+(21, 1, 3),
+(22, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -239,14 +291,14 @@ CREATE TABLE IF NOT EXISTS `users_in_nests` (
   PRIMARY KEY (`Id`),
   KEY `Id_nest` (`Id_nest`),
   KEY `Id_user` (`Id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `users_in_nests`
 --
 
 INSERT INTO `users_in_nests` (`Id_user`, `Id_nest`, `Id`) VALUES
-(1, 1, 1);
+(6, 1, 3);
 
 --
 -- Contraintes pour les tables déchargées

@@ -83,7 +83,7 @@ app.get('/events', function(req, res) {
     }); 
 
 });
-app.get('/events/:filter', function(req, res) {     
+app.get('/events/filter/:filter', function(req, res) {     
     var filter = req.params.filter;
     var query = "SELECT * FROM events";
     var query2 = "SELECT * FROM nests WHERE Name = " + filter;    
@@ -136,7 +136,6 @@ app.get('/events/:filter', function(req, res) {
         }     
     }
     db.query(query2, (err2, result2, fields2) => {
-        console.log(result2);
         query += " WHERE Id_nest = " + result2[0].Id;
     db.query(query, (err, result, fields) => {         
         if (err) {
@@ -148,7 +147,8 @@ app.get('/events/:filter', function(req, res) {
         } 
     }); 
  });
-}); 
+});
+ 
 //UPDATE
     app.put('/events/:id', (req,res) => {
         var id = req.params.id;
@@ -175,7 +175,8 @@ app.get('/events/:filter', function(req, res) {
 //For events : ONE DATA
 app.get('/events/:id', function(req, res) {     
 	var id = req.params.id;
-	var query = "SELECT * FROM events WHERE Id = " +id;    
+	var query = "SELECT * FROM events WHERE Id = " + id;
+    var query2 = "SELECT COUNT(*) AS COUNT FROM users_in_events WHERE Id_event = " + id;    
 	var conditions = ["Date", "Place", "Id_nest", "Nb_people", "Full", "Name", "Description", "Id_creator"]; 
 
 	//SELECTION
@@ -224,17 +225,22 @@ app.get('/events/:id', function(req, res) {
         	query += " OFFSET " + req.query["offset"];         
         }     
     }
-
-    db.query(query, function(err, result, fields) {         
-    	if (err) {
-			res.writeHead(404)
-			res.end("Failed");
-		}
-		else {
-			res.end(JSON.stringify(result));
-		}
-    }); 
-
+    db.query(query2, function(err2, result2, fields2) {     
+        db.query(query, function(err, result, fields) {         
+          if (err2) {
+             res.writeHead(404)
+             res.end("Failed COUNT");
+          }
+          result[0].COUNT = result2[0].COUNT;
+    	  if (err) {
+			 res.writeHead(404)
+			 res.end("Failed");
+		  }
+		  else {
+			 res.end(JSON.stringify(result));
+		  }
+        }); 
+    });
 });
 
 app.get('/events/nests/:id_nest', function(req, res) {     
