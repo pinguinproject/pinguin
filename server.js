@@ -6,11 +6,11 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 
 var db = mysql.createConnection({
-	host: process.env.RDS_HOSTNAME,
-	user: process.env.RDS_USERNAME,
-	password : process.env.RDS_PASSWORD,
-	database : process.env.RDS_DB_NAME,
-	port : process.env.RDS_PORT
+	host: "mypinguindb.cjpzl5rcji3m.eu-west-3.rds.amazonaws.com",
+	user: "pinguin",
+	password : "darkcookie",
+	database : "pinguin",
+	port : "3306"
 
 });
 
