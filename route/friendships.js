@@ -75,7 +75,7 @@ module.exports = function(app, db) {
 				res.end("Read Failed");			
 			}
 			else {
-				res.end("Read successful. Data : " + JSON.stringify(result));
+				res.end("{ \"friendships\" : " + JSON.stringify(result) + "}");
 			} 
 	    }); 
 	}); 
@@ -138,7 +138,7 @@ app.get('/friendships/:id', (req, res) => {
 				res.end("Read Failed");			
 			}
 			else {
-				res.end("Read successful. Data : " + JSON.stringify(result));
+				res.end("{ \"friendships\" : " + JSON.stringify(result) + "}");
 			} 
 	    }); 
 	}); 
@@ -201,7 +201,7 @@ app.get('/friendships/users/:id', (req, res) => {
 				res.end("Read Failed");			
 			}
 			else {
-				res.end("Read successful. Data : " + JSON.stringify(result));
+				res.end("{ \"friendships\" : " + JSON.stringify(result) + "}");
 			} 
 	    }); 
 	});

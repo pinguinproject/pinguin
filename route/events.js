@@ -67,18 +67,20 @@ app.get('/events', function(req, res) {
     if ("limit" in req.query) {         
     	query += " LIMIT " + req.query["limit"];
 
-        if ("offset" in req.query) {             
+    if ("offset" in req.query) {             
         	query += " OFFSET " + req.query["offset"];         
         }     
     }
-
+    if ("like" in req.query) {
+                query += " WHERE Name" + " LIKE '%" + req.query["like"] + "%'";
+        }
     db.query(query, function(err, result, fields) {         
     	if (err) {
 			res.writeHead(404)
 			res.end("Failed");
 		}
 		else {
-			res.end(JSON.stringify(result));
+			res.end("{ \"events\" : " + JSON.stringify(result) + "}");
 		} 
     }); 
 
@@ -143,7 +145,7 @@ app.get('/events/filter/:filter', function(req, res) {
             res.end("Failed");
         }
         else {
-            res.end(JSON.stringify(result));
+            res.end("{ \"events\" : " + JSON.stringify(result) + "}");
         } 
     }); 
  });
@@ -237,7 +239,7 @@ app.get('/events/:id', function(req, res) {
 			 res.end("Failed");
 		  }
 		  else {
-			 res.end(JSON.stringify(result));
+			 res.end("{ \"events\" : " + JSON.stringify(result) + "}");
 		  }
         }); 
     });
@@ -301,7 +303,7 @@ app.get('/events/nests/:id_nest', function(req, res) {
             res.end("Failed");
         }
         else {
-            res.end(JSON.stringify(result));
+            res.end("{ \"events\" : " + JSON.stringify(result) + "}");
         }
     }); 
 
@@ -365,7 +367,7 @@ app.get('/events/users/:id_creator', function(req, res) {
             res.end("Failed");
         }
         else {
-            res.end(JSON.stringify(result));
+            res.end("{ \"events\" : " + JSON.stringify(result) + "}");
         }
     }); 
 

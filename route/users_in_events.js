@@ -103,7 +103,7 @@ module.exports = function(app, db) {
 				res.end("Read Failed");			
 			}
 			else {
-				res.end("Read successful. Data : " + JSON.stringify(result));
+				res.end("{ \"users_in_events\" : " + JSON.stringify(result) + "}");
 			} 
 	    }); 
 	}); 
@@ -166,7 +166,7 @@ app.get('/users_in_events/:id', (req, res) => {
 				res.end("Read Failed");			
 			}
 			else {
-				res.end("Read successful. Data : " + JSON.stringify(result));
+				res.end("{ \"users_in_events\" : " + JSON.stringify(result) + "}");
 			} 
 	    }); 
 	}); 
@@ -228,7 +228,7 @@ app.get('/users_in_events/users/:id', function(req, res) {
             res.end("Failed");
         }
         else {
-            res.end(JSON.stringify(result));
+            res.end("{ \"users_in_events\" : " + JSON.stringify(result) + "}");
         }
     }); 
 
@@ -292,7 +292,7 @@ app.get('/users_in_events/events/:id', function(req, res) {
             res.end("Failed");
         }
         else {
-            res.end(JSON.stringify(result));
+            res.end("{ \"users_in_events\" : " + JSON.stringify(result) + "}");
         }
     }); 
 

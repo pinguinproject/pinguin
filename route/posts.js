@@ -78,7 +78,7 @@ module.exports = function(app, db) {
 				res.end("Read Failed");			
 			}
 			else {
-				res.end("Read successful. Data : " + JSON.stringify(result));
+				res.end("{ \"posts\" : " + JSON.stringify(result) + "}");
 			} 
 	    }); 
 	}); 
@@ -141,7 +141,7 @@ app.get('/posts/:id', (req, res) => {
 				res.end("Read Failed");			
 			}
 			else {
-				res.end("Read successful. Data : " + JSON.stringify(result));
+				res.end("{ \"posts\" : " + JSON.stringify(result) + "}");
 			} 
 	    }); 
 	}); 
@@ -204,7 +204,7 @@ app.get('/posts/events/:id_event', (req, res) => {
 				res.end("Read Failed");			
 			}
 			else {
-				res.end("Read successful. Data : " + JSON.stringify(result));
+				res.end("{ \"posts\" : " + JSON.stringify(result) + "}");
 			} 
 	    }); 
 	}); 
@@ -267,7 +267,7 @@ app.get('/posts/users/:id', (req, res) => {
 				res.end("Read Failed");			
 			}
 			else {
-				res.end("Read successful. Data : " + JSON.stringify(result));
+				res.end("{ \"posts\" : " + JSON.stringify(result) + "}");
 			} 
 	    }); 
 	}); 

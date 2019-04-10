@@ -80,6 +80,9 @@ module.exports = function(app, db) {
 	        	query += " OFFSET " + req.query["offset"];         
 	        }     
 	    }
+	    if ("like" in req.query) {
+	    		query += " WHERE Lastname " + " LIKE '%" + req.query["like"] + "%' OR Firstname LIKE '%" + req.query["like"] + "%'";
+	    }
 
 	    db.query(query, (err, result, fields) => {         
 	    	if (err) {
@@ -149,7 +152,7 @@ app.get('/users/:id', (req, res) => {
 				res.end("Read Failed");			
 			}
 			else {
-				res.end("Read successful. Data : " + JSON.stringify(result));
+				res.end("{ \"users\" : " + JSON.stringify(result) + "}");
 			} 
 	    }); 
 	}); 

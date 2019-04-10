@@ -74,7 +74,7 @@ module.exports = function(app, db) {
 				res.end("Read Failed");			
 			}
 			else {
-				res.end("Read successful. Data : " + JSON.stringify(result));
+				res.end("{ \"users_in_nests\" : " + JSON.stringify(result) + "}");
 			} 
 	    }); 
 	}); 
@@ -137,7 +137,7 @@ app.get('/users_in_nests/:id', (req, res) => {
 				res.end("Read Failed");			
 			}
 			else {
-				res.end("Read successful. Data : " + JSON.stringify(result));
+				res.end("{ \"users_in_nests\" : " + JSON.stringify(result) + "}");
 			} 
 	    }); 
 	}); 
@@ -200,7 +200,7 @@ app.get('/users_in_nests/users/:id', function(req, res) {
             res.end("Failed");
         }
         else {
-            res.end(JSON.stringify(result));
+            res.end("{ \"users_in_nests\" : " + JSON.stringify(result) + "}");
         }
     }); 
 
@@ -264,7 +264,7 @@ app.get('/users_in_nests/nests/:id', function(req, res) {
             res.end("Failed");
         }
         else {
-            res.end(JSON.stringify(result));
+            res.end("{ \"users_in_nests\" : " + JSON.stringify(result) + "}");
         }
     }); 
 

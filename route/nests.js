@@ -66,14 +66,16 @@ module.exports = function(app, db) {
 	        	query += " OFFSET " + req.query["offset"];         
 	        }     
 	    }
-
+	     if ("like" in req.query) {
+	    		query += " WHERE Name" + " LIKE '%" + req.query["like"] + "%'";
+	    }
 	    db.query(query, (err, result, fields) => {         
 	    	if (err) {
 				res.writeHead(404);
 				res.end("Read Failed");			
 			}
 			else {
-				res.end("Read successful. Data : " + JSON.stringify(result));
+				res.end("{ \"nests\" : " + JSON.stringify(result) + "}");
 			} 
 	    }); 
 	}); 
@@ -136,7 +138,7 @@ module.exports = function(app, db) {
 				res.end("Read Failed");			
 			}
 			else {
-				res.end("Read successful. Data : " + JSON.stringify(result));
+				res.end("{ \"nests\" : " + JSON.stringify(result) + "}");
 			} 
 	    }); 
 	}); 

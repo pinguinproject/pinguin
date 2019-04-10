@@ -75,7 +75,7 @@ app.get('/messages', function(req, res) {
 			res.end("Failed");
 		}
 		else {
-			res.end(JSON.stringify(result));
+			res.end("{ \"messages\" : " + JSON.stringify(result) + "}");
 		} 
     }); 
 
@@ -141,7 +141,7 @@ app.get('/messages/:id', function(req, res) {
 			res.end("Failed");
 		}
 		else {
-			res.end(JSON.stringify(result));
+			res.end("{ \"messages\" : " + JSON.stringify(result) + "}");
 		}
     }); 
 
@@ -205,7 +205,7 @@ app.get('/messages/users/:id', function(req, res) {
             res.end("Failed");
         }
         else {
-            res.end(JSON.stringify(result));
+            res.end("{ \"messages\" : " + JSON.stringify(result) + "}");
         }
     }); 
 
