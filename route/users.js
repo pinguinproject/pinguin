@@ -87,7 +87,7 @@ module.exports = function(app, db) {
 				res.end("Read Failed");			
 			}
 			else {
-				res.end("Read successful. Data : " + JSON.stringify(result));
+				res.end("{ \"users\" : " + JSON.stringify(result) + "}");
 			} 
 	    }); 
 	}); 
