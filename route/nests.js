@@ -1,6 +1,6 @@
 module.exports = function(app, db) {
-  app.post('/nests', (req, res) => {
-		var Name = req.body.Name;
+  app.get('/nests/post/:Name', (req, res) => {
+		var Name = req.params.Name;
 		var query = "INSERT INTO nests (Name) VALUES ('" + Name + "')"; 
 		db.query(query, (err, result, fields) => {
 			if (err) {
@@ -144,9 +144,9 @@ module.exports = function(app, db) {
 	}); 
 
 	//UPDATE
-	app.put('/nests/:id', (req,res) => {
+	app.get('/nests/put/:id/:Name', (req,res) => {
 		var id = req.params.id;
-		var Name = req.body.Name;
+		var Name = req.params.Name;
 		var query = "UPDATE nests SET " + "Name = ('" +Name+"') " + "WHERE Id = " + id;
 		db.query(query, (err, result, fields) => {
 			if (err) {
@@ -161,7 +161,7 @@ module.exports = function(app, db) {
 
 
 	//DELETE
-	app.delete('/nests/:id', (req,res) => {
+	app.get('/nests/delete/:id', (req,res) => {
 		var id = req.params.id;
 		var query = "DELETE FROM nests WHERE Id = " +id;
 		db.query(query, (err, result, fields) => {

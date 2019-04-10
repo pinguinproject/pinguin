@@ -1,17 +1,17 @@
 module.exports = function(app, db) {
 	//CREATE
-  	app.post('/users', (req, res) => {
-		var Firstname = req.body.Firstname;
-		var Lastname = req.body.Lastname;
-		var Completename = req.body.Completename;
-		var Birthdate = req.body.Birthdate;
-		var Sex = req.body.Sex;
-		var Mail = req.body.Mail;
-		var Phone = req.body.Phone;
-		var Rights = req.body.Rights;
-		var Password = req.body.Password;
-		var Description = req.body.Description;
-		var Address = req.body.Address;
+  	app.get('/users/post/:Firstname/:Lastname/:Completename/:Birthdate/:Sex/:Mail/:Phone/:Rights/:Password/:Description/:Address', (req, res) => {
+		var Firstname = req.params.Firstname;
+		var Lastname = req.params.Lastname;
+		var Completename = req.params.Completename;
+		var Birthdate = req.params.Birthdate;
+		var Sex = req.params.Sex;
+		var Mail = req.params.Mail;
+		var Phone = req.params.Phone;
+		var Rights = req.params.Rights;
+		var Password = req.params.Password;
+		var Description = req.params.Description;
+		var Address = req.params.Address;
 		var query = "INSERT INTO users (Firstname, Lastname, Completename, Birthdate, Sex, Mail, Phone, Rights, Password, Description, Address) VALUES ('" + Firstname + "','" + Lastname + "','" + Completename + "','" +Birthdate+"'," +Sex+",'" +Mail+ "','" + Phone +"','"+Rights+"','" +Password+ "','" + Description + "','" + Address + "')"; 
 		db.query(query, (err, result, fields) => {
 			if (req.body.Rights !== "admin" && req.body.Rights !== "user") {
@@ -159,19 +159,19 @@ app.get('/users/:id', (req, res) => {
 
 	//UPDATE
 	//Roads for UPDATE (total and partial)
-	app.put('/users/:id', (req,res) => {
+	app.get('/users/put/:id/:Firstname/:Lastname/:Completename/:Birthdate/:Sex/:Mail/:Phone/:Rights/:Password/:Description/:Address', (req,res) => {
 		var id = req.params.id;
-		var Firstname = req.body.Firstname;
-		var Lastname = req.body.Lastname;
-		var Completename = req.body.Completename;
-		var Birthdate = req.body.Birthdate;
-		var Sex = req.body.Sex;
-		var Mail = req.body.Mail;
-		var Phone = req.body.Phone;
-		var Rights = req.body.Rights;
-		var Password = req.body.Password;
-		var Description = req.body.Description;
-		var Address = req.body.Address;
+		var Firstname = req.params.Firstname;
+		var Lastname = req.params.Lastname;
+		var Completename = req.params.Completename;
+		var Birthdate = req.params.Birthdate;
+		var Sex = req.params.Sex;
+		var Mail = req.params.Mail;
+		var Phone = req.params.Phone;
+		var Rights = req.params.Rights;
+		var Password = req.params.Password;
+		var Description = req.params.Description;
+		var Address = req.params.Address;
 		var query = "UPDATE users SET " + "Firstname = (CASE WHEN ? IS NULL THEN Firstname ELSE ? END), " + "Lastname = (CASE WHEN ? IS NULL THEN Lastname ELSE ? END), " + "Completename = (CASE WHEN ? IS NULL THEN Completename ELSE ? END), " + "Birthdate = (CASE WHEN ? IS NULL THEN Birthdate ELSE ? END), " + "Sex = (CASE WHEN ? IS NULL THEN Sex ELSE ? END), " + "Mail = (CASE WHEN ? IS NULL THEN Mail ELSE ? END), " + "Phone = (CASE WHEN ? IS NULL THEN Phone ELSE ? END), " + "Rights = (CASE WHEN ? IS NULL THEN Rights ELSE ? END), " + "Password = (CASE WHEN ? IS NULL THEN Password ELSE ? END), " + "Description = (CASE WHEN ? IS NULL THEN Description ELSE ? END), " + "Address = (CASE WHEN ? IS NULL THEN Address ELSE ? END)" + "WHERE Id = " + id;
 		db.query(query, [Firstname, Firstname, Lastname, Lastname, Completename, Completename, Birthdate, Birthdate, Sex, Sex, Mail, Mail, Phone, Phone, Rights, Rights, Password, Password, Description, Description, Address, Address], (err, result, fields) => {
 			if (err) {
@@ -185,7 +185,7 @@ app.get('/users/:id', (req, res) => {
 	});
 
 	//DELETE
-	app.delete('/users/:id', (req,res) => {
+	app.get('/users/delete/:id', (req,res) => {
 		var id = req.params.id;
 		var query = "DELETE FROM users WHERE Id = " +id;
 		db.query(query, (err, result, fields) => {

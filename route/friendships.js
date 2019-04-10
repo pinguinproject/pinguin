@@ -1,9 +1,9 @@
 module.exports = function(app, db) {
 	//CREATE
-  	app.post('/friendships', (req, res) => {
-		var Id_user_send = req.body.Id_user_send;
-		var Id_user_receive = req.body.Id_user_receive;
-		var Friendship = req.body.Friendship;
+  	app.get('/friendships/post/:Id_user_send/:Id_user_receive/:Friendship', (req, res) => {
+		var Id_user_send = req.params.Id_user_send;
+		var Id_user_receive = req.params.Id_user_receive;
+		var Friendship = req.params.Friendship;
 		var query = "INSERT INTO friendships (Id_user_send, Id_user_receive, Friendship) VALUES ('" + Id_user_send + "','" + Id_user_receive + "','" + Friendship + "')"; 
 		db.query(query, (err, result, fields) => {
 			if (err) {

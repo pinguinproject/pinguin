@@ -1,8 +1,8 @@
 module.exports = function(app, db) {
 	//CREATE
-  	app.post('/users_in_events', (req, res) => {
-		var Id_user = req.body.Id_user;
-		var Id_event = req.body.Id_event;
+  	app.get('/users_in_events/post/:Id_user/:Id_event', (req, res) => {
+		var Id_user = req.params.Id_user;
+		var Id_event = req.params.Id_event;
 		var query = "INSERT INTO users_in_events (Id_user, Id_event) VALUES ('" + Id_user + "','" + Id_event + "')";
 		var query2 = "SELECT COUNT(*) AS COUNT FROM users_in_events WHERE Id_event = " + Id_event;
 		var query3 = "SELECT Nb_people FROM events WHERE Id = " + Id_event;
@@ -300,10 +300,10 @@ app.get('/users_in_events/events/:id', function(req, res) {
 
 	//UPDATE
 	//Roads for UPDATE (total and partial)
-	app.put('/users_in_events/:id', (req,res) => {
+	app.get('/users_in_events/put/:id/:Id_user/:Id_event', (req,res) => {
 		var id = req.params.id;
-		var Id_user = req.body.Id_user;
-		var Id_event = req.body.Id_event;
+		var Id_user = req.params.Id_user;
+		var Id_event = req.params.Id_event;
 		var query = "UPDATE users_in_events SET " + "Id_user = (CASE WHEN ? IS NULL THEN Id_user ELSE ? END), " + "Id_event = (CASE WHEN ? IS NULL THEN Id_event ELSE ? END)" + "WHERE Id = " + id;
 		db.query(query, [Id_user, Id_user, Id_event, Id_event], (err, result, fields) => {
 			if (err) {
@@ -317,7 +317,7 @@ app.get('/users_in_events/events/:id', function(req, res) {
 	});
 
 	//DELETE
-	app.delete('/users_in_events/:id', (req,res) => {
+	app.get('/users_in_events/delete/:id', (req,res) => {
 		var id = req.params.id;
 		var query = "DELETE FROM users_in_events WHERE Id = " +id;
 		db.query(query, (err, result, fields) => {

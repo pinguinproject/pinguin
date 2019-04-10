@@ -1,11 +1,11 @@
 module.exports = function(app, db) {
 	//CREATE
-  	app.post('/posts', (req, res) => {
-		var Type = req.body.Type;
-		var Id_user = req.body.Id_user;
-		var Id_event = req.body.Id_event;
-		var Date = req.body.Date;
-		var Url = req.body.Url;
+  	app.get('/posts/post/:Type/:Id_user/:Id_event/:Date/:Url', (req, res) => {
+		var Type = req.params.Type;
+		var Id_user = req.params.Id_user;
+		var Id_event = req.params.Id_event;
+		var Date = req.params.Date;
+		var Url = req.params.Url;
 		var query = "INSERT INTO posts (Type, Id_user, Id_event, Date, Url) VALUES ('" + Type + "'," + Id_user + "," + Id_event +",'" + Date + "','" + Url +"')"; 
 		db.query(query, (err, result, fields) => {
 			if (err) {

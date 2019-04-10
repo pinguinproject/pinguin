@@ -1,6 +1,6 @@
 module.exports = function(app, db) {
 	//CREATE
-  	app.post('/users_in_nests', (req, res) => {
+  	app.get('/users_in_nests/post/:Id_user/:Id_nest', (req, res) => {
 		var Id_user = req.body.Id_user;
 		var Id_nest = req.body.Id_nest;
 		var query = "INSERT INTO users_in_nests (Id_user, Id_nest) VALUES ('" + Id_user + "','" + Id_nest + "')"; 
@@ -272,10 +272,10 @@ app.get('/users_in_nests/nests/:id', function(req, res) {
 
 	//UPDATE
 	//Roads for UPDATE (total and partial)
-	app.put('/users_in_nests/:id', (req,res) => {
+	app.get('/users_in_nests/put/:id/:Id_user/:Id_nest', (req,res) => {
 		var id = req.params.id;
-		var Id_user = req.body.Id_user;
-		var Id_nest = req.body.Id_nest;
+		var Id_user = req.params.Id_user;
+		var Id_nest = req.params.Id_nest;
 		var query = "UPDATE users_in_nests SET " + "Id_user = (CASE WHEN ? IS NULL THEN Id_user ELSE ? END), " + "Id_nest = (CASE WHEN ? IS NULL THEN Id_nest ELSE ? END)" + "WHERE Id = " + id;
 		db.query(query, [Id_user, Id_user, Id_nest, Id_nest], (err, result, fields) => {
 			if (err) {
@@ -289,7 +289,7 @@ app.get('/users_in_nests/nests/:id', function(req, res) {
 	});
 
 	//DELETE
-	app.delete('/users_in_nests/:id', (req,res) => {
+	app.get('/users_in_nests/delete/:id', (req,res) => {
 		var id = req.params.id;
 		var query = "DELETE FROM users_in_nests WHERE Id = " +id;
 		db.query(query, (err, result, fields) => {

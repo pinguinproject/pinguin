@@ -1,13 +1,13 @@
 module.exports = function(app, db) {
- app.post('/events', function(req,res) {
-	var Date = req.body.Date;
-	var Place = req.body.Place;
-	var Id_nest = req.body.Id_nest;
-	var Nb_people = req.body.Nb_people;
-	var Full = req.body.Full;
-	var Name = req.body.Name;
-	var Description = req.body.Description;
-    var Id_creator = req.body.Id_creator;
+ app.get('/events/post/:Date/:Place/:Id_nest/:Nb_people/:Full/:Name/:Description/:Id_creator', function(req,res) {
+	var Date = req.params.Date;
+	var Place = req.params.Place;
+	var Id_nest = req.params.Id_nest;
+	var Nb_people = req.params.Nb_people;
+	var Full = req.params.Full;
+	var Name = req.params.Name;
+	var Description = req.params.Description;
+    var Id_creator = req.params.Id_creator;
 	var query = "INSERT INTO events (Date, Place, Id_nest, Nb_people, Full, Name, Description, Id_creator) VALUES ('" + Date + "','" + Place + "','" + Id_nest +"','" + Nb_people + "','" + Full + "','" + Name + "','" + Description + "','" + Id_creator + "')"; 
 	db.query(query, function(err, result, fields) {
 		if (err) {
@@ -151,28 +151,6 @@ app.get('/events/filter/:filter', function(req, res) {
  });
 });
  
-//UPDATE
-    app.put('/events/:id', (req,res) => {
-        var id = req.params.id;
-        var Date = req.body.Date;
-        var Place = req.body.Place;
-        var Id_nest = req.body.Id_nest;
-        var Nb_people = req.body.Nb_people;
-        var Full = req.body.Full;
-        var Name = req.body.Name;
-        var Description = req.body.Description;
-        var Id_creator = req.body.Id_creator;
-        var query = "UPDATE events SET " + "Date = (CASE WHEN ? IS NULL THEN Date ELSE ? END), " + "Place = (CASE WHEN ? IS NULL THEN Place ELSE ? END), " + "Id_nest = (CASE WHEN ? IS NULL THEN Id_nest ELSE ? END), " + "Nb_people = (CASE WHEN ? IS NULL THEN Nb_people ELSE ? END), " + "Full = (CASE WHEN ? IS NULL THEN Full ELSE ? END), " + "Name = (CASE WHEN ? IS NULL THEN Name ELSE ? END), " + "Description = (CASE WHEN ? IS NULL THEN Description ELSE ? END), " + "Id_creator = (CASE WHEN ? IS NULL THEN Id_creator ELSE ? END)" + "WHERE Id = " + id;
-        db.query(query, [Date, Date, Place, Place, Id_nest, Id_nest, Nb_people, Nb_people, Full, Full, Name, Name, Description, Description, Id_creator, Id_creator], (err, result, fields) => {
-            if (err) {
-                res.writeHead(404);
-                res.end("Update Failed");           
-            }
-            else {
-                res.end("Update successful. Data updated : id ="+ req.params.id);
-            } 
-        });
-    });
 //ROADS FOR READ 
 //For events : ONE DATA
 app.get('/events/:id', function(req, res) {     
@@ -373,9 +351,32 @@ app.get('/events/users/:id_creator', function(req, res) {
 
 });   
 
+//UPDATE
+    app.get('/events/put/:id/:Date/:Place/:Id_nest/:Nb_people/:Full/:Name/:Description/:Id_creator', (req,res) => {
+        var id = req.params.id;
+        var Date = req.params.Date;
+        var Place = req.params.Place;
+        var Id_nest = req.params.Id_nest;
+        var Nb_people = req.params.Nb_people;
+        var Full = req.params.Full;
+        var Name = req.params.Name;
+        var Description = req.params.Description;
+        var Id_creator = req.params.Id_creator;
+        var query = "UPDATE events SET " + "Date = (CASE WHEN ? IS NULL THEN Date ELSE ? END), " + "Place = (CASE WHEN ? IS NULL THEN Place ELSE ? END), " + "Id_nest = (CASE WHEN ? IS NULL THEN Id_nest ELSE ? END), " + "Nb_people = (CASE WHEN ? IS NULL THEN Nb_people ELSE ? END), " + "Full = (CASE WHEN ? IS NULL THEN Full ELSE ? END), " + "Name = (CASE WHEN ? IS NULL THEN Name ELSE ? END), " + "Description = (CASE WHEN ? IS NULL THEN Description ELSE ? END), " + "Id_creator = (CASE WHEN ? IS NULL THEN Id_creator ELSE ? END)" + "WHERE Id = " + id;
+        db.query(query, [Date, Date, Place, Place, Id_nest, Id_nest, Nb_people, Nb_people, Full, Full, Name, Name, Description, Description, Id_creator, Id_creator], (err, result, fields) => {
+            if (err) {
+                res.writeHead(404);
+                res.end("Update Failed");           
+            }
+            else {
+                res.end("Update successful. Data updated : id ="+ req.params.id);
+            } 
+        });
+    });
+
 //ROADS FOR DELETE
 //In users table :
-app.delete('/events/:id', function(req,res) {
+app.get('/events/delete/:id', function(req,res) {
 	var id = req.params.id;
 	var query = "DELETE FROM events WHERE Id = " +id;
 	db.query(query, function(err, result, fields) {

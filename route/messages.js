@@ -1,9 +1,9 @@
 module.exports = function(app, db) {
- app.post('/messages', function(req,res) {
-	var Id_send = req.body.Id_send;
-	var Id_receive = req.body.Id_receive;
-	var Date = req.body.Date;
-	var Description = req.body.Description;
+ app.get('/messages/post/:Id_send/:Id_receive/:Date/:Description', function(req,res) {
+	var Id_send = req.params.Id_send;
+	var Id_receive = req.params.Id_receive;
+	var Date = req.params.Date;
+	var Description = req.params.Description;
 	var query = "INSERT INTO messages (Id_send, Id_receive, Date, Description) VALUES ('" + Id_send + "','" + Id_receive + "','" + Date +"','" + Description +"')"; 
 	db.query(query, function(err, result, fields) {
 		if (err) {

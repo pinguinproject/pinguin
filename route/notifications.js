@@ -1,10 +1,10 @@
 module.exports = function(app, db) {
 	//CREATE
-  	app.post('/notifications', (req, res) => {
-		var Id_user = req.body.Id_user;
-		var Description = req.body.Description;
-		var Date = req.body.Date;
-		var Id_event = req.body.Id_event;
+  	app.get('/notifications/post/:Id_user/:Description/:Date/:Id_event', (req, res) => {
+		var Id_user = req.params.Id_user;
+		var Description = req.params.Description;
+		var Date = req.params.Date;
+		var Id_event = req.params.Id_event;
 		var query = "INSERT INTO notifications (Id_user, Description, Date, Id_event) VALUES (" + Id_user + ",'" + Description + "','" + Date +"'," +Id_event+")"; 
 		db.query(query, (err, result, fields) => {
 			if (err) {
@@ -210,12 +210,12 @@ module.exports = function(app, db) {
 
 	//UPDATE
 	//Roads for UPDATE (total and partial)
-	app.put('/notifications/:id', (req,res) => {
+	app.get('/notifications/put/:id/:Id_user/:Description/:Date/:Id_event', (req,res) => {
 		var id = req.params.id;
-		var Id_user = req.body.Id_user;
-		var Description = req.body.Description;
-		var Date = req.body.Date;
-		var Id_event = req.body.Id_event;
+		var Id_user = req.params.Id_user;
+		var Description = req.params.Description;
+		var Date = req.params.Date;
+		var Id_event = req.params.Id_event;
 		var query = "UPDATE notifications SET " + "Id_user = (CASE WHEN ? IS NULL THEN Id_user ELSE ? END), " + "Description = (CASE WHEN ? IS NULL THEN Description ELSE ? END), " + "Date = (CASE WHEN ? IS NULL THEN Date ELSE ? END), " + "Id_event = (CASE WHEN ? IS NULL THEN Id_event ELSE ? END) " + "WHERE Id = " + id;
 		db.query(query, [Id_user, Id_user, Description, Description, Date, Date, Id_event, Id_event], (err, result, fields) => {
 			if (err) {
@@ -230,7 +230,7 @@ module.exports = function(app, db) {
 
 
 	//DELETE
-	app.delete('/notifications/:id', (req,res) => {
+	app.get('/notifications/delete/:id', (req,res) => {
 		var id = req.params.id;
 		var query = "DELETE FROM notifications WHERE Id = " +id;
 		db.query(query, (err, result, fields) => {
