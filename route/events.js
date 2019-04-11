@@ -1,5 +1,5 @@
 module.exports = function(app, db) {
- app.get('/events/post/:Date/:Place/:Id_nest/:Nb_people/:Full/:Name/:Description/:Id_creator', function(req,res) {
+ app.get('/events/post/:Date/:Place/:Id_nest/:Nb_people/:Full/:Name/:Description/:Id_creator/:Latitude/:Longitude', function(req,res) {
 	var Date = req.params.Date;
 	var Place = req.params.Place;
 	var Id_nest = req.params.Id_nest;
@@ -8,7 +8,9 @@ module.exports = function(app, db) {
 	var Name = req.params.Name;
 	var Description = req.params.Description;
     var Id_creator = req.params.Id_creator;
-	var query = "INSERT INTO events (Date, Place, Id_nest, Nb_people, Full, Name, Description, Id_creator) VALUES ('" + Date + "','" + Place + "','" + Id_nest +"','" + Nb_people + "','" + Full + "','" + Name + "','" + Description + "','" + Id_creator + "')"; 
+    var Latitude = req.params.Latitude;
+    var Longitude = req.params.Longitude;
+	var query = "INSERT INTO events (Date, Place, Id_nest, Nb_people, Full, Name, Description, Id_creator, Latitude, Longitude) VALUES ('" + Date + "','" + Place + "','" + Id_nest + "','" + Nb_people + "','" + Full + "','" + Name + "','" + Description + "','" + Id_creator + "','" + Latitude + "','" + Longitude + "')"; 
 	db.query(query, function(err, result, fields) {
 		if (err) {
 			res.writeHead(404)
@@ -23,7 +25,7 @@ module.exports = function(app, db) {
 //For events : ALL DATA 
 app.get('/events', function(req, res) {     
 	var query = "SELECT * FROM events";   
-	var conditions = ["Date", "Place", "Id_nest", "Nb_people", "Full", "Name", "Description", "Id_creator"]; 
+	var conditions = ["Date", "Place", "Id_nest", "Nb_people", "Full", "Name", "Description", "Id_creator", "Latitude", "Longitude"]; 
 
 	//SELECTION
     for (var index in conditions) {         
@@ -89,7 +91,7 @@ app.get('/events/filter/:filter', function(req, res) {
     var filter = req.params.filter;
     var query = "SELECT * FROM events";
     var query2 = "SELECT * FROM nests WHERE Name = " + filter;    
-    var conditions = ["Date", "Place", "Id_nest", "Nb_people", "Full", "Name", "Description", "Id_creator"]; 
+    var conditions = ["Date", "Place", "Id_nest", "Nb_people", "Full", "Name", "Description", "Id_creator", "Latitude", "Longitude"]; 
 
     //SELECTION
     for (var index in conditions) {         
@@ -157,7 +159,7 @@ app.get('/events/:id', function(req, res) {
 	var id = req.params.id;
 	var query = "SELECT * FROM events WHERE Id = " + id;
     var query2 = "SELECT COUNT(*) AS COUNT FROM users_in_events WHERE Id_event = " + id;    
-	var conditions = ["Date", "Place", "Id_nest", "Nb_people", "Full", "Name", "Description", "Id_creator"]; 
+	var conditions = ["Date", "Place", "Id_nest", "Nb_people", "Full", "Name", "Description", "Id_creator", "Latitude", "Longitude"]; 
 
 	//SELECTION
     for (var index in conditions) {         
@@ -226,7 +228,7 @@ app.get('/events/:id', function(req, res) {
 app.get('/events/nests/:id_nest', function(req, res) {     
     var Id_nest = req.params.id_nest;
     var query = "SELECT * FROM events WHERE Id_nest = " + Id_nest;    
-    var conditions = ["Date", "Place", "Id_nest", "Nb_people", "Full", "Name", "Description", "Id_creator"]; 
+    var conditions = ["Date", "Place", "Id_nest", "Nb_people", "Full", "Name", "Description", "Id_creator", "Latitude", "Longitude"]; 
 
     //SELECTION
     for (var index in conditions) {         
@@ -290,7 +292,7 @@ app.get('/events/nests/:id_nest', function(req, res) {
 app.get('/events/users/:id_creator', function(req, res) {     
     var Id_creator = req.params.id_creator;
     var query = "SELECT * FROM events WHERE Id_creator = " + Id_creator;    
-    var conditions = ["Date", "Place", "Id_nest", "Nb_people", "Full", "Name", "Description", "Id_creator"]; 
+    var conditions = ["Date", "Place", "Id_nest", "Nb_people", "Full", "Name", "Description", "Id_creator", "Latitude", "Longitude"];
 
     //SELECTION
     for (var index in conditions) {         
@@ -352,7 +354,7 @@ app.get('/events/users/:id_creator', function(req, res) {
 });   
 
 //UPDATE
-    app.get('/events/put/:id/:Date/:Place/:Id_nest/:Nb_people/:Full/:Name/:Description/:Id_creator', (req,res) => {
+    app.get('/events/put/:id/:Date/:Place/:Id_nest/:Nb_people/:Full/:Name/:Description/:Id_creator/:Latitude/:Longitude', (req,res) => {
         var id = req.params.id;
         var Date = req.params.Date;
         var Place = req.params.Place;
@@ -362,8 +364,10 @@ app.get('/events/users/:id_creator', function(req, res) {
         var Name = req.params.Name;
         var Description = req.params.Description;
         var Id_creator = req.params.Id_creator;
-        var query = "UPDATE events SET " + "Date = (CASE WHEN ? IS NULL THEN Date ELSE ? END), " + "Place = (CASE WHEN ? IS NULL THEN Place ELSE ? END), " + "Id_nest = (CASE WHEN ? IS NULL THEN Id_nest ELSE ? END), " + "Nb_people = (CASE WHEN ? IS NULL THEN Nb_people ELSE ? END), " + "Full = (CASE WHEN ? IS NULL THEN Full ELSE ? END), " + "Name = (CASE WHEN ? IS NULL THEN Name ELSE ? END), " + "Description = (CASE WHEN ? IS NULL THEN Description ELSE ? END), " + "Id_creator = (CASE WHEN ? IS NULL THEN Id_creator ELSE ? END)" + "WHERE Id = " + id;
-        db.query(query, [Date, Date, Place, Place, Id_nest, Id_nest, Nb_people, Nb_people, Full, Full, Name, Name, Description, Description, Id_creator, Id_creator], (err, result, fields) => {
+        var Latitude = req.params.Latitude;
+        var Longitude = req.params.Longitude;
+        var query = "UPDATE events SET " + "Date = (CASE WHEN ? IS NULL THEN Date ELSE ? END), " + "Place = (CASE WHEN ? IS NULL THEN Place ELSE ? END), " + "Id_nest = (CASE WHEN ? IS NULL THEN Id_nest ELSE ? END), " + "Nb_people = (CASE WHEN ? IS NULL THEN Nb_people ELSE ? END), " + "Full = (CASE WHEN ? IS NULL THEN Full ELSE ? END), " + "Name = (CASE WHEN ? IS NULL THEN Name ELSE ? END), " + "Description = (CASE WHEN ? IS NULL THEN Description ELSE ? END), " + "Id_creator = (CASE WHEN ? IS NULL THEN Id_creator ELSE ? END), " + "Latitude = (CASE WHEN ? IS NULL THEN Latitude ELSE ? END), " + "Longitude = (CASE WHEN ? IS NULL THEN Longitude ELSE ? END)" +  "WHERE Id = " + id;
+        db.query(query, [Date, Date, Place, Place, Id_nest, Id_nest, Nb_people, Nb_people, Full, Full, Name, Name, Description, Description, Id_creator, Id_creator, Latitude, Latitude, Longitude, Longitude], (err, result, fields) => {
             if (err) {
                 res.writeHead(404);
                 res.end("Update Failed");           

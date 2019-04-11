@@ -7,9 +7,8 @@ module.exports = function(app, db) {
 				res.writeHead(404);
 				res.end("Failed");
 			}
-			//else if (req.body.Mail === )
 			else {
-				res.end("Insertion successful. Data inserted : " + req.body.Name);
+				res.end("Insertion successful. Data inserted : " + Name);
 			}
 		});
   });

@@ -1,8 +1,8 @@
 module.exports = function(app, db) {
 	//CREATE
   	app.get('/users_in_nests/post/:Id_user/:Id_nest', (req, res) => {
-		var Id_user = req.body.Id_user;
-		var Id_nest = req.body.Id_nest;
+		var Id_user = req.params.Id_user;
+		var Id_nest = req.params.Id_nest;
 		var query = "INSERT INTO users_in_nests (Id_user, Id_nest) VALUES ('" + Id_user + "','" + Id_nest + "')"; 
 		db.query(query, (err, result, fields) => {
 			if (err) {
@@ -18,7 +18,7 @@ module.exports = function(app, db) {
 
   	//READ
 	app.get('/users_in_nests', (req, res) => {     
-		var query = "SELECT * FROM users_in_nests";    
+		var query = "SELECT * FROM users_in_nests";
 		var conditions = ["Id_user", "Id_nest"]; 
 
 		//SELECTION
